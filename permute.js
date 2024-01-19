@@ -5,15 +5,15 @@ module.exports = permute;
 function permute(arr, n = 0) {
   let result = [];
   (arr || arr.length) &&
-    perm(typeof arr!='array'? (''+arr).split('') :arr, n);
+    perm(typeof arr!=='array'? (''+arr).split('') :arr, n);
   return result;
 
   function perm(arr, n, a = '') {
-    if (n && n == a.length) {
+    if (n && n===a.length) {
       // clog(a);
       result.push(a);
       return;
-    } else if (arr.length === 1) {
+    } else if (arr.length===1) {
       // clog(a + arr.join(''));
       result.push(a + arr.join(''));
       return;
