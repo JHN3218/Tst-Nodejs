@@ -1,15 +1,22 @@
+const clog = console.log;
+const dlog = require("./silly-libs");
+
 module.exports = permute;
+function permute(arr, n = 0) {
+  perm(typeof arr == "string" ? arr.split("") : arr, n);
 
-function permute(arr, a = '') {
-  if (arr.length === 1) {
-    console.log(a + arr.join(''));
-    return;
-  }
+  function perm(arr, n, a = "") {
+    if (n && n == a.length) {
+      clog(a);
+      return;
+    } else if (arr.length === 1) {
+      clog(a + arr.join(""));
+      return;
+    }
 
-  if (typeof arr == 'string') arr = arr.split('');
-
-  for (let i in arr) {
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-    permute(arr.slice(1), a + arr[0]);
+    for (let i in arr) {
+      [arr[i], arr[0]] = [arr[0], arr[i]];
+      perm(arr.slice(1), n, a + arr[0]);
+    }
   }
 }
