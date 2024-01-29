@@ -4,18 +4,31 @@ const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require('@googl
 const genAI = new GoogleGenerativeAI(process.env['Gemini_API_ky']);
 
 module.exports.GeminiAI =
-async (prompt) => {
+async (prompt, attitude = 0) => {
   if (!prompt) {
     console.log('No prompt provided.');
     return;
   }
   // For text-only input, use the gemini-pro model
-  const generationConfig = {
-    // stopSequences: ["red"],
-    // maxOutputTokens: 200,
-    temperature: 0.9, //0-.9
-    topK: 5,
-    // topP: 1, //.95
+  const generationConfig = 
+    attitude==1? {
+      // stopSequences: ["red"],
+      // maxOutputTokens: 200,
+      temperature: .5, //0-.9
+      topK: 2,
+      // topP: 1, //.95
+    }:attitude==2? {
+      // stopSequences: ["red"],
+      // maxOutputTokens: 200,
+      temperature: .9, //0-.9
+      topK: 5,
+      // topP: 1, //.95
+    }: {
+      // stopSequences: ["red"],
+      // maxOutputTokens: 200,
+      temperature: 0, //0-.9
+      topK: 1,
+      // topP: 1, //.95
   };
 
 const safetySettings = [
