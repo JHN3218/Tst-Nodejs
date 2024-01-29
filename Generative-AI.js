@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env['Gemini_API_ky']);
 
 module.exports.GeminiAI =
 async (prompt, attitude = 0) => {
-  if (!prompt) {
+  if (!prompt.substring(1,prompt.length-1)) {
     console.log('No prompt provided.');
     return;
   }
@@ -49,15 +49,7 @@ const safetySettings = [
     threshold: HarmBlockThreshold.BLOCK_NONE,
   },
   // {
-  //   category: HarmCategory.HARM_CATEGORY_DEROGATORY,
-  //   threshold: HarmBlockThreshold.BLOCK_NONE,
-  // },
-  // {
-  //   category: HarmCategory.HARM_CATEGORY_TOXICITY,
-  //   threshold: HarmBlockThreshold.BLOCK_NONE,
-  // },
-  // {
-  //   category: HarmCategory.HARM_CATEGORY_SEXUAL,
+  //   category: HarmCategory.HARM_CATEGORY_UNSPECIFIED,
   //   threshold: HarmBlockThreshold.BLOCK_NONE,
   // },
 ];

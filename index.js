@@ -9,6 +9,6 @@ const {GeminiAI} = require('./Generative-AI');
 //clog(permute('1726&£@fg',3).join('\n'));
 // clipboardy.writeSync('Hello World');
 const prompt = `
-how to import module in node.js using import instead of require().
+
 `;
-GeminiAI(prompt,0);
+GeminiAI(prompt,2);
