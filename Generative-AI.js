@@ -48,18 +48,18 @@ const safetySettings = [
     category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
     threshold: HarmBlockThreshold.BLOCK_NONE,
   },
-// {
-//   category: HarmCategory.HARM_CATEGORY_DEROGATORY,
-//   threshold: HarmBlockThreshold.BLOCK_NONE,
-// },
-// {
-//   category: HarmCategory.HARM_CATEGORY_TOXICITY,
-//   threshold: HarmBlockThreshold.BLOCK_NONE,
-// },
-// {
-//   category: HarmCategory.HARM_CATEGORY_SEXUAL,
-//   threshold: HarmBlockThreshold.BLOCK_NONE,
-// },
+  // {
+  //   category: HarmCategory.HARM_CATEGORY_DEROGATORY,
+  //   threshold: HarmBlockThreshold.BLOCK_NONE,
+  // },
+  // {
+  //   category: HarmCategory.HARM_CATEGORY_TOXICITY,
+  //   threshold: HarmBlockThreshold.BLOCK_NONE,
+  // },
+  // {
+  //   category: HarmCategory.HARM_CATEGORY_SEXUAL,
+  //   threshold: HarmBlockThreshold.BLOCK_NONE,
+  // },
 ];
 
   const model = genAI.getGenerativeModel({
