@@ -1,8 +1,8 @@
 const clog = console.log;
 const dlog = require('./silly-libs');
 
-module.exports = permute;
-function permute(input, ln = 0) {
+module.exports.permute = 
+(input, ln = 0) => {
   let result = [];
   if (input||input.length) {
     input = (typeof input!=='array'?
