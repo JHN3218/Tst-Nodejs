@@ -1,4 +1,8 @@
-const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require('@google/generative-ai');
+const {
+  GoogleGenerativeAI,
+  HarmBlockThreshold,
+  HarmCategory,
+} = require('@google/generative-ai');
 
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(process.env['Gemini_API_ky']);
@@ -68,3 +72,30 @@ const safetySettings = [
   // const text = response.text();
   // console.log(text);
 };
+
+
+const OpenAI = require("openai");
+
+const openai = new OpenAI({apiKey:process.env['OpenAI_API_ky']});
+
+module.exports.OpenAI =
+async (
+  prompt,
+  system = 'You are a helpful assistant.',
+) => {
+  const completion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content: system,
+      },
+    {
+      role: "user",
+      content: prompt,
+    },
+],
+    model: "gpt-3.5-turbo",
+  });
+
+  console.log(completion.choices[0]);
+}
