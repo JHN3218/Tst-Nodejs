@@ -9,7 +9,7 @@ const genAI = new GoogleGenerativeAI(process.env['Gemini_API_ky']);
 
 module.exports.GeminiAI =
 async (prompt, attitude = 0) => {
-  if (!prompt.substring(1,prompt.length-1)) {
+  if (prompt.length<=2) {
     console.log('No prompt provided.');
     return;
   }

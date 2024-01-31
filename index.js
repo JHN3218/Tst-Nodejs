@@ -6,7 +6,7 @@ const {
 //const {permute} = require('./permute');
 const {
   GeminiAI,
-  OpenAI,
+  // OpenAI,
 } = require('./Generative-AI');
 
 //clog(dlog(123,'abc'));
