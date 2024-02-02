@@ -3,7 +3,7 @@ const { dlog, loop } = require("./silly-libs");
 
 module.exports.permute = (input, ln = 0) => {
   let result = [];
-  if (input || input.length) {
+  if (input.length || input) {
     input = (typeof input !== "object" ? ("" + input).split("") : input).sort();
     if (input.length <= ln) ln = 0;
     perm(input, ln);
@@ -26,4 +26,5 @@ module.exports.permute = (input, ln = 0) => {
   }
 };
 
-module.exports.factorial = (n) => loop([1, n], (i, r) => (r *= i), 1);
+module.exports.factorial = (n) =>
+  loop([1, Math.round(Math.abs(n))], (i, r) => (r *= i), 1);

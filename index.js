@@ -1,9 +1,13 @@
 const clog = console.log;
 const {
   dlog,
-} = require('./silly-libs');
+  //loop,
+} = require("./silly-libs");
 // const {clipboardy} = require('clipboardy');
-//const {permute} = require('./permute');
+const {
+  permute,
+  factorial,
+} = require('./silly-math-libs');
 const {
   GeminiAI,
   // OpenAI,
@@ -16,5 +20,7 @@ const {
 const prompt = `
 Please introduce yourself.
 `;
-GeminiAI(prompt,0);
+//GeminiAI(prompt,0);
 // OpenAI(prompt);
+
+clog((123).length);
