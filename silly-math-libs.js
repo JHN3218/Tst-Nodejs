@@ -1,10 +1,10 @@
 const clog = console.log;
-const { dlog, loop } = require("./silly-libs");
+const { dlog, loop, is } = require("./silly-libs");
 
 module.exports.permute = (input, ln = 0) => {
   let result = [];
   if (input.length || input) {
-    input = (typeof input !== "object" ? ("" + input).split("") : input).sort();
+    input = (is(input).Object() BB? ("" + input).split("") : input).sort();
     if (input.length <= ln) ln = 0;
     perm(input, ln);
   }

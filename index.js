@@ -1,7 +1,8 @@
 const clog = console.log;
 const {
   dlog,
-  //loop,
+  loop,
+  is,
 } = require("./silly-libs");
 // const {clipboardy} = require('clipboardy');
 const {
@@ -18,9 +19,16 @@ const {
 //clog(permute('1726&£@fg',3).join('\n'));
 // clipboardy.writeSync('Hello World');
 const prompt = `
-Please introduce yourself.
+Response in JSON:
+
+Today's weather.
 `;
 //GeminiAI(prompt,0);
 // OpenAI(prompt);
 
-clog((123).length);
+const jsonData = '{"name": "John", "age": 30, "city": "New York"}';
+for (k in jsObject = JSON.parse(jsonData))
+  clog(`${k}: ${jsObject[k]}`);
+
+
+
