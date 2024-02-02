@@ -3,6 +3,7 @@ const {
   dlog,
   loop,
   is,
+  AddObj,
 } = require("./silly-libs");
 // const {clipboardy} = require('clipboardy');
 const {
@@ -26,9 +27,9 @@ Today's weather.
 //GeminiAI(prompt,0);
 // OpenAI(prompt);
 
-const jsonData = '{"name": "John", "age": 30, "city": "New York"}';
-for (k in jsObject = JSON.parse(jsonData))
-  clog(`${k}: ${jsObject[k]}`);
+// JSON.parse(jsonData))
 
 
-
+//clog(is(56).Between(0,100));
+a=[]
+clog(AddObj(a,loop(10,(i,r)=>r.push(i**(i/i/2)),[])))
