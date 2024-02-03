@@ -1,9 +1,9 @@
-const { clog, dlog, loop, is } = require("./silly-libs");
+const { ø, clog, dlog, loop, is } = require("./silly-libs");
 
 const permute = (input, ln = 0) => {
   let result = [];
   if (input.length || input) {
-    input = (is(input).Object() ? ("" + input).split("") : input).sort();
+    input = (!is(input).Object() ? ("" + input).split("") : input).sort();
     if (input.length <= ln) ln = 0;
     perm(input, ln);
   }
