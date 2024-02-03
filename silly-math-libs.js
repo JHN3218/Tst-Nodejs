@@ -1,7 +1,6 @@
-const clog = console.log;
-const { dlog, loop, is } = require("./silly-libs");
+const { clog, dlog, loop, is } = require("./silly-libs");
 
-module.exports.permute = (input, ln = 0) => {
+const permute = (input, ln = 0) => {
   let result = [];
   if (input.length || input) {
     input = (is(input).Object() ? ("" + input).split("") : input).sort();
@@ -26,5 +25,7 @@ module.exports.permute = (input, ln = 0) => {
   }
 };
 
-module.exports.factorial = (n) =>
+const factorial = (n) =>
   loop([1, Math.round(Math.abs(n))], (i, r) => (r *= i), 1);
+
+module.exports = { permute, factorial };
