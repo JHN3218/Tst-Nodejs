@@ -1,10 +1,9 @@
-const clog = console.log;
+const [ø, clog] = [null, console.log];
 
 function dlog(exprVal, ...y) {
-  let output = [
-    (y.length ? "" + y[0] + (y[1] || ": ") : "") + exprVal,
-    ...y.slice(2),
-  ];
+  let output = [];
+  if (y.length) output.push("" + y[0]);
+  output.push(exprVal, ...y.slice(1));
   clog(...output);
   return exprVal;
 }
@@ -18,37 +17,44 @@ function test(f) {
   }
 }
 
-function MergeObj(obj1, obj2, add = false, replace = false) {
-  let obj = structuredClone(obj1);
-  for (const [ky, val] of Object.entries(obj2)) {
-    if (!add && !replace && ky in obj) continue;
-    if (!is(val).Object())
-      obj[ky] =
-        add && replace
-          ? is(obj[ky]).Number()
-            ? obj[ky] + val
-            : val
-          : add
-            ? (obj[ky] || 0) + val
-            : val;
-    else
-      obj[ky] =
-        add && !replace
-          ? Array.isArray(val)
-            ? [...obj[ky], ...val]
-            : MergeObj(obj[ky] || {}, val, add, replace)
-          : MergeObj(
-              obj[ky] || (Array.isArray(val) && []) || {},
-              val,
-              add,
-              replace,
-            );
+function MergeObjs(add = false, replace = false) {
+  var result;
+  return (...objs) => {
+    for (const obj of objs) {
+      if (!is(result).Object()) result = is(obj).Array() ? [] : {};
+      result = DeepMerge(result, obj);
+    }
+    return result;
+  };
+
+  function DeepMerge(obj1, obj2) {
+    let obj = structuredClone(obj1);
+    for (const [ky, val] of Object.entries(obj2)) {
+      if (!add && !replace && ky in obj) continue;
+      if (!is(val).Object())
+        obj[ky] =
+          add && replace
+            ? is(obj[ky]).Number()
+              ? obj[ky] + val
+              : val
+            : add
+              ? (obj[ky] || 0) + val
+              : val;
+      else
+        obj[ky] =
+          add && !replace
+            ? Array.isArray(val)
+              ? [...(obj[ky] || []), ...val]
+              : DeepMerge(obj[ky] || {}, val)
+            : DeepMerge(obj[ky] || (Array.isArray(val) && []) || {}, val);
+    }
+    return obj;
   }
-  return obj;
 }
 
-function loop(ln, func, returnVal = 0, cond = { exit: false }) {
-  [i, end, step] = [ln[0] || 0, ln[1] || ln, ln[2] || 1];
+function loop(ln, func, returnVal = 0) {
+  let cond = { exit: false };
+  let [i, end, step] = [ln[0] || 0, ln[1] || ln, ln[2] || 1];
   for (; !cond.exit && i < end; i += step) func(i, returnVal, cond);
   return returnVal;
 }
@@ -73,4 +79,4 @@ function is(...x) {
   return members;
 }
 
-module.exports = { clog, dlog, test, loop, is, MergeObj };
+module.exports = { clog, dlog, test, loop, is, MergeObjs };
