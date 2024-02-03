@@ -22,34 +22,27 @@ function MergeObj(obj1, obj2, add = false, replace = false) {
   let obj = structuredClone(obj1);
   for (const [ky, val] of Object.entries(obj2)) {
     if (!add && !replace && ky in obj) continue;
-    if (!is(val).Object() && !(add && replace)) {
-      obj[ky] = add ? (obj[ky] || 0) + val : val;
-      continue;
-    }
-
-    if (add && replace) {
-      if (is(val).Object()) {
-        if (Array.isArray(val)) {
-          obj[ky] = obj[ky] || [];
-          for (const [i, v] of val.entries())
-            obj[ky][i] = (obj[ky][i] || 0) + v;
-        } else obj[ky] = MergeObj(obj[ky] || {}, val, add, replace);
-      } else {
-        if (is(obj[ky], val).Number()) obj[ky] += val;
-        else obj[ky] = val;
-      }
-    } else if (add && !replace) {
-      obj[ky] = Array.isArray(val)
-        ? [...obj[ky], ...val]
-        : MergeObj(obj[ky] || {}, val, add, replace);
-    } else {
-      obj[ky] = MergeObj(
-        obj[ky] || (Array.isArray(val) && []) || {},
-        val,
-        add,
-        replace,
-      );
-    }
+    if (!is(val).Object())
+      obj[ky] =
+        add && replace
+          ? is(obj[ky]).Number()
+            ? obj[ky] + val
+            : val
+          : add
+            ? (obj[ky] || 0) + val
+            : val;
+    else
+      obj[ky] =
+        add && !replace
+          ? Array.isArray(val)
+            ? [...obj[ky], ...val]
+            : MergeObj(obj[ky] || {}, val, add, replace)
+          : MergeObj(
+              obj[ky] || (Array.isArray(val) && []) || {},
+              val,
+              add,
+              replace,
+            );
   }
   return obj;
 }
