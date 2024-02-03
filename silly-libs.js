@@ -55,7 +55,7 @@ function MergeObjs(add = false, replace = false) {
 function loop(ln, func, returnVal = 0) {
   let cond = { exit: false };
   let [i, end, step] = [ln[0] || 0, ln[1] || ln, ln[2] || 1];
-  for (; !cond.exit && i < end; i += step) func(i, returnVal, cond);
+  for (; !cond.exit && i < end; i += step) returnVal = func(i, returnVal, cond);
   return returnVal;
 }
 
@@ -67,16 +67,17 @@ function is(...x) {
     Nøl: () => x.every((v) => !v || !v.length),
     Array: () => x.every((v) => Array.isArray(v)),
     Boolean: () => x.every((v) => typeof v === "boolean"),
-    Date: () => x.every((v) => is(v).Object() && v instanceof Date),
     Function: () => x.every((v) => typeof v === "function"),
     Object: () => x.every((v) => typeof v === "object"),
     Number: () => x.every((v) => typeof v === "number"),
     String: () => x.every((v) => typeof v === "string"),
     Symbol: () => x.every((v) => typeof v === "symbol"),
     Undefined: () => x.every((v) => typeof v === "undefined"),
+    Date: () => x.every((v) => is(v).Object() && v instanceof Date),
+    RegExp: () => x.every((v) => is(v).Object() && v instanceof RegExp),
   };
-  // Object.freeze(members);
+  Object.freeze(members);
   return members;
 }
 
-module.exports = { clog, dlog, test, loop, is, MergeObjs };
+module.exports = { ø, clog, dlog, test, loop, is, MergeObjs };
