@@ -19,7 +19,7 @@ const {
 
 //clog(dlog(123,'abc'));
 //clog(!(''||([]).length||null));
-//clog(permute('1726&£@fg',3).join('\n'));
+clog(permute('ab',3).join('\n'));
 // JSON.parse(jsonData))
 //clog(is(56).Between(0,100));
 a=[{a:1,b:2,c:[7,8,9],hh:[5,5,5]}];
