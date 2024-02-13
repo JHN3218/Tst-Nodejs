@@ -31,6 +31,9 @@ function MergeObjs(add = false, replace = false) {
 
   function DeepMerge(result, obj) {
     for (const [ky, val] of Object.entries(obj)) {
+      // clog(result)
+      // clog(ky,result[ky])
+      // clog('val',val)
       if (!add && !replace && ky in result) continue;
       if (add && !replace && is(result, obj).Array()) {
         result.push(...obj);
@@ -55,7 +58,7 @@ function MergeObjs(add = false, replace = false) {
       else
         result[ky] =
           add && !replace
-            ? is(result[ky], val).Array()
+            ? is(val).Array()
               ? [...(result[ky] || []), ...val]
               : DeepMerge(result[ky] || {}, val)
             : DeepMerge(result[ky] || (Array.isArray(val) && []) || {}, val);
