@@ -1,5 +1,5 @@
 class NeuralNetwork {
- constructor(inputNodes, hiddenNodes, outputNodes) {
+  constructor(inputNodes, hiddenNodes, outputNodes) {
     this.inputNodes = inputNodes;
     this.hiddenNodes = hiddenNodes;
     this.outputNodes = outputNodes;
@@ -13,9 +13,9 @@ class NeuralNetwork {
     this.bias_o = new Matrix(this.outputNodes, 1);
     this.bias_h.randomize();
     this.bias_o.randomize();
- }
+  }
 
- feedforward(inputArray) {
+  feedforward(inputArray) {
     // Generating the hidden outputs
     let inputs = Matrix.fromArray(inputArray);
     let hidden = Matrix.multiply(this.weights_ih, inputs);
@@ -30,10 +30,10 @@ class NeuralNetwork {
 
     // Sending back to the caller!
     return output.toArray();
- }
+  }
 
- // Training the network
- train(inputArray, targetArray) {
+  // Training the network
+  train(inputArray, targetArray) {
     // Generating the hidden outputs
     let inputs = Matrix.fromArray(inputArray);
     let hidden = Matrix.multiply(this.weights_ih, inputs);
@@ -79,36 +79,46 @@ class NeuralNetwork {
     let weightIhDeltas = Matrix.multiply(hiddenGradient, inputsT);
 
     this.weights_ih.add(weightIhDeltas);
- }
+  }
 }
 
 // Activation function
 function sigmoid(x) {
- return 1 / (1 + Math.exp(-x));
+  return 1 / (1 + Math.exp(-x));
 }
 
 // Derivative of sigmoid
 function sigmoidGradient(x) {
- return x * (1 - x);
+  return x * (1 - x);
 }
 
 // Matrix class for operations
 class Matrix {
- constructor(rows, cols) {
+  constructor(rows, cols) {
     this.rows = rows;
     this.cols = cols;
-    this.data = Array(this.rows).fill().map(() => Array(this.cols).fill(Math.random() * 2 - 1));
- }
+    this.data = Array(this.rows)
+      .fill()
+      .map(() => Array(this.cols).fill(Math.random() * 2 - 1));
+  }
 
- static fromArray(arr) {
+  randomize() {
+    this.data.forEach((row) => {
+      row.forEach((_, index) => {
+        row[index] = Math.random() * 2 - 1; // Random values between -1 and 1
+      });
+    });
+  }
+
+  static fromArray(arr) {
     return new Matrix(arr.length, 1).map((e, i) => arr[i]);
- }
+  }
 
- toArray() {
+  toArray() {
     return this.data.reduce((arr, row) => arr.concat(row), []);
- }
+  }
 
- map(func) {
+  map(func) {
     // Apply a function to every element of matrix
     this.data.forEach((row, i) => {
       row.forEach((val, j) => {
@@ -116,59 +126,61 @@ class Matrix {
       });
     });
     return this;
- }
+  }
 
- static multiply(m1, m2) {
+  static multiply(m1, m2) {
     if (m1.cols !== m2.rows) {
-      throw new Error('Columns of A must match rows of B');
+      throw new Error("Columns of A must match rows of B");
     }
-    return new Matrix(m1.rows, m2.cols)
-      .map((e, i, j) => {
-        let sum = 0;
-        for (let k = 0; k < m1.cols; k++) {
-          sum += m1.data[i][k] * m2.data[k][j];
-        }
-        return sum;
-      });
- }
+    return new Matrix(m1.rows, m2.cols).map((e, i, j) => {
+      let sum = 0;
+      for (let k = 0; k < m1.cols; k++) {
+        sum += m1.data[i][k] * m2.data[k][j];
+      }
+      return sum;
+    });
+  }
 
- add(n) {
+  add(n) {
     if (n instanceof Matrix) {
       if (this.rows !== n.rows || this.cols !== n.cols) {
-        throw new Error('Dimensions must match');
+        throw new Error("Dimensions must match");
       }
       return this.map((e, i, j) => e + n.data[i][j]);
     } else {
-      return this.map(e => e + n);
+      return this.map((e) => e + n);
     }
- }
+  }
 
- static subtract(m1, m2) {
+  static subtract(m1, m2) {
     if (m1.rows !== m2.rows || m1.cols !== m2.cols) {
-      throw new Error('Dimensions must match');
+      throw new Error("Dimensions must match");
     }
     return m1.map((e, i, j) => e - m2.data[i][j]);
- }
+  }
 
- static transpose(matrix) {
-    return new Matrix(matrix.cols, matrix.rows)
-      .map((e, i, j) => matrix.data[j][i]);
- }
+  static transpose(matrix) {
+    return new Matrix(matrix.cols, matrix.rows).map(
+      (e, i, j) => matrix.data[j][i],
+    );
+  }
 }
+
+module.exports = { NeuralNetwork };
 
 // Example usage
 let nn = new NeuralNetwork(2, 4, 1);
 
 // Training the network
 for (let i = 0; i < 20000; i++) {
- // 0,0 => 0
- nn.train([0, 0], [0]);
- // 0,1 => 1
- nn.train([0, 1], [1]);
- // 1,0 => 1
- nn.train([1, 0], [1]);
- // 1,1 => 0
- nn.train([1, 1], [0]);
+  // 0,0 => 0
+  nn.train([0, 0], [0]);
+  // 0,1 => 1
+  nn.train([0, 1], [1]);
+  // 1,0 => 1
+  nn.train([1, 0], [1]);
+  // 1,1 => 0
+  nn.train([1, 1], [0]);
 }
 
 // Testing the network
