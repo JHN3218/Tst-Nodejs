@@ -28,4 +28,12 @@ const permute = (input, ln = 0) => {
 const factorial = (n) =>
   loop([1, Math.round(Math.abs(n))], (i, r) => (r *= i), 1);
 
-module.exports = { permute, factorial };
+const tst = (n) => {
+  const d=365
+  let r=1, c=d
+  for (var i=1; n<=r && i<=d; i++)
+    clog(i,--c,r*=c/d)
+  return r
+}
+
+module.exports = { permute, factorial, tst };

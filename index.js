@@ -12,12 +12,13 @@ const
 ,{
   permute,
   factorial,
+  tst,
 } = require('./silly-math-libs')
 ,{
   GeminiAI,
   // OpenAI,
 } = require('./Generative-AI')
-,NeuralNetwork = require('./NN')
+// ,NeuralNetwork = require('./NN')
 
 //clog(dlog(123,'abc'));
 //clog(!(''||([]).length||null));
@@ -52,8 +53,8 @@ const config = {
 };
 
 // create a simple feed-forward neural network with backpropagation
-const net = new brain.NeuralNetwork(config);
-
+/* const net = new brain.NeuralNetwork(config);
+// train the network
 net.train([
   { input: [0, 0], output: [0] },
   { input: [0, 1], output: [1] },
@@ -62,3 +63,6 @@ net.train([
 ]);
 
 const output = net.run([1, 0]); // [0.987]
+*/
+
+clog(tst(.5))
