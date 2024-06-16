@@ -8,24 +8,28 @@ const {
 const genAI = new GoogleGenerativeAI(process.env['Gemini_API_ky']);
 
 module.exports.GeminiAI =
-async (prompt, attitude = 0) => {
+async (
+    prompt,
+    system = `As expert analysis in complete details with technical concise straight formal academic format`,
+    attitude = 0
+) => {
   if (!prompt.trim().length) {
     console.log('No prompt provided.');
     return;
   }
   // For text-only input, use the gemini-pro model
   const generationConfig = 
-    attitude==1? {
-      // stopSequences: ["red"],
-      // maxOutputTokens: 200,
-      temperature: .5, //0-.9
-      topK: 2,
-      // topP: 1, //.95
-    }:attitude==2? {
+    attitude==2? {
       // stopSequences: ["red"],
       // maxOutputTokens: 200,
       temperature: .9, //0-.9
       topK: 5,
+      // topP: 1, //.95
+    }:attitude==1? {
+      // stopSequences: ["red"],
+      // maxOutputTokens: 200,
+      temperature: .5, //0-.9
+      topK: 2,
       // topP: 1, //.95
     }: {
       // stopSequences: ["red"],
@@ -59,12 +63,13 @@ const safetySettings = [
 ];
 
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.0-pro",
+    // The Gemini 1.5 models are versatile and work with most use cases
+    model: "gemini-1.5-flash",
     generationConfig,
     safetySettings,
   });
 
-  const result = await model.generateContentStream(prompt);
+  const result = await model.generateContentStream(system + ':\n' + prompt);
   for await (const chunk of result.stream) {
     console.log(chunk.text());
   }
@@ -81,7 +86,7 @@ const openai = new OpenAI({apiKey:process.env['OpenAI_API_ky']});
 module.exports.OpenAI =
 async (
   prompt,
-  system = 'You are a helpful assistant.',
+  system = 'As expert analysis in complete details with technical concise straight formal academic format',
 ) => {
   const completion = await openai.chat.completions.create({
     messages: [

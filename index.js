@@ -37,10 +37,9 @@ const
 
 
 const prompt = `
-explain how this equation is true
-(ab+10b)÷10=b(1+a/10)
+mirror mirror on the wall, who is the fairest of them all?
 `;
-// GeminiAI(prompt);
+GeminiAI(prompt);
 // OpenAI(prompt);
 
 
@@ -65,4 +64,4 @@ net.train([
 const output = net.run([1, 0]); // [0.987]
 */
 
-clog(tst(.5))
+// tst(.5)
