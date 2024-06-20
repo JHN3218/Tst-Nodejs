@@ -2,7 +2,8 @@ const {
   GoogleGenerativeAI,
   HarmBlockThreshold,
   HarmCategory,
-} = require('@google/generative-ai');
+} = require('@google/generative-ai')
+,{ fs } = require('fs');
 
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(process.env['Gemini_API_ky']);
@@ -10,13 +11,14 @@ const genAI = new GoogleGenerativeAI(process.env['Gemini_API_ky']);
 module.exports.GeminiAI =
 async (
     prompt,
-    system = `As expert analysis in complete details with technical concise straight formal academic format`,
+    role = `As expert analysis in complete details with technical concise straight formal academic format`,
     attitude = 0
 ) => {
   if (!prompt.trim().length) {
     console.log('No prompt provided.');
     return;
   }
+  
   // For text-only input, use the gemini-pro model
   const generationConfig = 
     attitude==2? {
@@ -39,28 +41,38 @@ async (
       // topP: 1, //.95
   };
 
-const safetySettings = [
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
   {
-    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
-  },
-  {
-    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
-  },
-{
-    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
-  },
-  {
-    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
-  },
-  // {
-  //   category: HarmCategory.HARM_CATEGORY_UNSPECIFIED,
-  //   threshold: HarmBlockThreshold.BLOCK_NONE,
-  // },
-];
+      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    // {
+    //   category: HarmCategory.HARM_CATEGORY_UNSPECIFIED,
+    //   threshold: HarmBlockThreshold.BLOCK_NONE,
+    // },
+  ];
+  
+  // Converts local file information to a GoogleGenerativeAI.Part object.
+  const fileToGenerativePart = (path, mimeType) => {
+    return {
+      inlineData: {
+        data: Buffer.from(fs.readFileSync(path)).toString("base64"),
+        mimeType
+      },
+    };
+  };
 
   const model = genAI.getGenerativeModel({
     // The Gemini 1.5 models are versatile and work with most use cases
@@ -69,7 +81,7 @@ const safetySettings = [
     safetySettings,
   });
 
-  const result = await model.generateContentStream(system + ':\n' + prompt);
+  const result = await model.generateContentStream(role + ':\n' + prompt);
   for await (const chunk of result.stream) {
     console.log(chunk.text());
   }

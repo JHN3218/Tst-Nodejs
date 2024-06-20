@@ -42,19 +42,19 @@ function MergeObjs(add = false, replace = false) {
       if (!is(val).Object())
         result[ky] =
           add && replace
-            ? is(result[ky], val).RealNum()
-              ? result[ky] + val
-              : is(result[ky]).Object()
-                ? DeepMerge(
-                    result[ky],
-                    Array.isArray(val)
-                      ? (((a = [])[ky] = val), a)
-                      : { [ky]: val },
-                  )
-                : val
-            : add
-              ? (result[ky] || 0) + val
-              : val;
+            ?is(result[ky], val).RealNum()
+              ?result[ky] + val
+            :is(result[ky]).Object()
+              ?DeepMerge(
+                  result[ky],
+                  Array.isArray(val)
+                    ?(((a = [])[ky] = val), a)
+                  :{ [ky]: val },
+                )
+            :val
+          :add
+            ?(result[ky] || 0) + val
+          :val;
       else
         result[ky] =
           add && !replace
