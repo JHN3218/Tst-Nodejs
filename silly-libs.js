@@ -82,11 +82,30 @@ function MergeObjs(add = false, replace = false) {
   }
 }
 
+/**
+ * A flexible looping function that allows for custom iteration and early exit.
+ * 
+ * @param {number[]|number} ln - Loop parameters: [start, end, step] or just end
+ * @param {function} func - Callback function to execute in each iteration
+ * @param {*} [returnVal=0] - Initial value to be passed to and potentially modified by the callback
+ * @returns {*} The final value of returnVal after all iterations
+ *
+ * @callback loopCallback
+ * @param {number} i - Current iteration index
+ * @param {*} returnVal - Value that can be modified and returned
+ * @param {{ exit: boolean }} cond - Object with 'exit' property to control loop termination
+ */
 function loop(ln, func, returnVal = 0) {
-  let cond = { exit: false };
+  let cond = { exit: false };  // Object to control early exit of the loop.
+  
+  // Destructuring ln to determine start, end, and step values.
   let [i, end, step] = [ln[0] || 0, ln[1] || ln, ln[2] || 1];
-  for (; !cond.exit && i < end; i += step) func(i, returnVal, cond);
-  return returnVal;
+  
+  // Loop from i to end with the specified step, unless cond.exit is set to true.
+  for (; !cond.exit && i < end; i += step)
+    func(i, returnVal, cond);  // Execute the callback function.
+  
+  return returnVal;  // Return the accumulated value.
 }
 
 function is(...x) {
