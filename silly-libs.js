@@ -58,15 +58,15 @@ function MergeObjs(add = false, replace = false) {
       else
         result[ky] =
           add && !replace
-            ? is(val).Array()
-              ? [...(result[ky] || []), ...val]
-              : DeepMerge((is(result[ky]).Object() && result[ky]) || {}, val)
-            : DeepMerge(
-                (is(result[ky]).Object() && result[ky]) ||
-                  (Array.isArray(val) && []) ||
-                  {},
-                val,
-              );
+            ?is(val).Array()
+              ?[...(result[ky] || []), ...val]
+              :DeepMerge((is(result[ky]).Object() && result[ky]) || {}, val)
+            :DeepMerge(
+              (is(result[ky]).Object() && result[ky]) ||
+                (Array.isArray(val) && []) ||
+                {},
+              val,
+            );
     }
     return result;
   }
@@ -75,8 +75,8 @@ function MergeObjs(add = false, replace = false) {
     for (const [ky, val] of Object.entries(obj)) {
       if (!replace && ky in result) continue;
       result[ky] = !is(result[ky], val).Object()
-        ? add(result, ky, val, replace)
-        : DeepMergeFunc(result[ky] || (Array.isArray(val) && []) || {}, val);
+        ?add(result, ky, val, replace)
+        :DeepMergeFunc(result[ky] || (Array.isArray(val) && []) || {}, val);
     }
     return result;
   }

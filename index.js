@@ -37,7 +37,7 @@ const
 
 
 const prompt = `
-mirror mirror on the wall, who is the fairest of them all?
+R² in statistic
 `;
 GeminiAI(prompt);
 // OpenAI(prompt);
