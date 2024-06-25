@@ -22,7 +22,7 @@ const
 
 //clog(dlog(123,'abc'));
 //clog(!(''||([]).length||null));
-//clog(permute('172',2).join('\n'));
+// clog(permute('1725',3).join('\n'));
 // JSON.parse(jsonData))
 //loop(10,()=>dlog(is(dlog(Math.round(Math.random()*100))).inRange(25,75)));
 // a=[{a:1,b:2,c:[7,8,9],hh:[5,5,5]}];
@@ -39,7 +39,7 @@ const
 const prompt = `
 R² in statistic
 `;
-GeminiAI(prompt);
+// GeminiAI(prompt);
 // OpenAI(prompt);
 
 
