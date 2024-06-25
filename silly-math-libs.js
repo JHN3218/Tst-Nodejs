@@ -3,6 +3,7 @@ const { ø, clog, dlog, loop, is } = require("./silly-libs");
 const permute = (input, ln = 0) => {
   let result = [];
   if (input.length || input) {
+    // set input as sorted array
     input = (!is(input).Object() ? ("" + input).split("") : input).sort();
     if (input.length <= ln) ln = 0;
     perm(input, ln);
@@ -18,6 +19,8 @@ const permute = (input, ln = 0) => {
       return;
     }
 
+    // swap & slice the head,
+    // then recursively rotate the tail
     for (let i in arr) {
       [arr[i], arr[0]] = [arr[0], arr[i]];
       perm(arr.slice(1), ln, a + arr[0]);
