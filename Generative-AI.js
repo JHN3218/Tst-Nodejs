@@ -124,7 +124,7 @@ async (
 
 const Anthropic = require("@anthropic-ai/sdk");
 
-const anthropic = new Anthropic({['x-api-key']:process.env['Anthropic_API_ky']});
+const anthropic = new Anthropic({apikey:process.env['Anthropic_API_ky']});
 
 module.exports.ClaudeAI =
 async (
