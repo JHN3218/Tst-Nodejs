@@ -40,3 +40,19 @@ const tst = (n) => {
 }
 
 module.exports = { permute, factorial, tst };
+
+Array.prototype.Σ = function() {
+  var result=0
+  if (!this.length) return undefined
+  for(let i=0; i<this.length; i++)
+    result+=this[i]
+  return result
+}
+
+Array.prototype.Π = function() {
+  var result=1
+  if (!this.length) return undefined
+  for(let i=0; i<this.length; i++)
+    result*=this[i]
+  return result
+}
