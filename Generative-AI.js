@@ -9,7 +9,9 @@ const {
 } = require('@google/generative-ai');
 
 // Access your API key as an environment variable (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI(process.env['Gemini_API_ky']);
+const genAI = new GoogleGenerativeAI(
+  process.env['Gemini_API_ky']
+);
 
 module.exports.GeminiAI =
 async (
@@ -97,7 +99,9 @@ async (
 
 const OpenAI = require("openai");
 
-const openai = new OpenAI({apiKey:process.env['OpenAI_API_ky']});
+const openai = new OpenAI({
+  apiKey:process.env['OpenAI_API_ky']
+});
 
 module.exports.OpenAI =
 async (
@@ -124,7 +128,9 @@ async (
 
 const Anthropic = require("@anthropic-ai/sdk");
 
-const anthropic = new Anthropic({apikey:process.env['Anthropic_API_ky']});
+const anthropic = new Anthropic({
+  apiKey:process.env['Anthropic_API_ky']
+});
 
 module.exports.ClaudeAI =
 async (
@@ -137,7 +143,8 @@ async (
     Sonnet: 'claude-3-5-sonnet-20240620',
     Haiku: 'claude-3-haiku-20240307',
   };
-  await anthropic.messages.stream({
+  const stream = await anthropic.messages
+  .stream({
     model: model[modl],
     max_tokens: 1024,
     temperature: 0, // 0.0 (analytic) - 1.0 (creative)
@@ -150,7 +157,19 @@ async (
         "text": prompt
       }]
     }]
-  }).on('text', (text) => {
+  })
+  .on('text', (text) => {
     console.log(text);
-  });
+  })
+  // .catch(async (err) => {
+  //   if (err instanceof Anthropic.APIError) {
+  //     console.log(err.status); // 400
+  //     console.log(err.name); // BadRequestError
+  //     console.log(err.headers); // {server: 'nginx', ...}
+  //   } else {
+  //     throw err;
+  //   }
+  // });
+  // const message = await stream.finalMessage();
+  // console.log(message);
 }
