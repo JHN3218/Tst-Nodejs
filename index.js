@@ -18,11 +18,14 @@ const
   min,
   max,
   mean,
-  // median,
+  add2mean,
+  median,
+  mode,
 } = require('./silly-statistics-libs')
 ,{
   GeminiAI,
   // OpenAI,
+  ClaudeAI,
 } = require('./Generative-AI')
 // ,NeuralNetwork = require('./NN')
 
@@ -47,6 +50,7 @@ R² in statistic
 `;
 // GeminiAI(prompt);
 // OpenAI(prompt);
+// ClaudeAI(prompt,'','Haiku');
 
 // tst(.5)
 

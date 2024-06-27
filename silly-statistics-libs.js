@@ -1,3 +1,5 @@
+const { clog } = require('./silly-libs')
+
 const min = arr =>
   arr.length?
     arr.reduce((r,i) => Math.min(r,i))
@@ -15,14 +17,6 @@ const max = arr =>
   arr.length?
     arr.reduce((r,i) => Math.max(r,i))
   :undefined;
-/* fast {
-  if (!arr.length) return undefined;
-  if (arr.length===1) return arr[0];
-  var result = arr[arr.length-1];
-  for (let i=arr.length-2; 0<i; i--)
-    result = Math.max(result,arr[i]);
-  return result;
-} */
 
 const mean = arr =>
   arr.length?
@@ -38,4 +32,17 @@ const median = arr =>
     arr.sort((a,b)=>a-b)[0|arr.length/2]
   :undefined;
 
-module.exports = { min, max, mean, add2mean, median };
+const mode = arr => {
+  if (!arr.length) return undefined;
+  var countr = {},
+      result = arr[0];
+  for (let i=0; i<arr.length; i++) {
+    let v = arr[i];
+    countr[v] = (countr[v] || 0) + 1;
+    if (countr[result] < countr[v])
+      result = v;
+  }
+  return result;
+}
+
+module.exports = { min, max, mean, add2mean, median, mode };
