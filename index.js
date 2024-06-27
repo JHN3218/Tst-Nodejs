@@ -20,11 +20,12 @@ const
   median,
   mode,
   sample,
+  r, frl
 } = require('./silly-statistics-libs')
 ,{
   GeminiAI,
   // OpenAI,
-  ClaudeAI,
+  // ClaudeAI,
 } = require('./Generative-AI')
 // ,NeuralNetwork = require('./NN')
 
@@ -50,8 +51,9 @@ create 2 proofs for the equation by modifying each sides (LHS & RHS):
 `;
 // GeminiAI(prompt);
 // OpenAI(prompt);
-// ClaudeAI(prompt,'','Haiku');
+// ClaudeAI(prompt);
 
 // tst(.5)
 
 
+clog(frl([1,2,2,3],[1,2,3,6]))

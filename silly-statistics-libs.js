@@ -61,8 +61,36 @@ const mode = arr => {
 
 const sample = (arr, mean = null) =>
   arr.length?
-    sqrt(arr.ΣdevSq(mean) / (arr.length-1))
+    Math.sqrt(arr.ΣdevSq(mean) / (arr.length-1))
   :undefined;
+
+// Correlation coefficient r
+const r = (x, y ,M=[] ,S=[]) => {
+  if (!x.length || !y.length) return undefined;
+  var [Mx,My] = [ M[0]||mean(x), M[1]||mean(y) ],
+      [Sx,Sy] = [ S[0]||sample(x,Mx), S[1]||sample(y,My) ],
+      Σdev = 0;
+  for (let i=0; i<x.length; i++)
+    Σdev += (x[i]-Mx)*(y[i]-My);
+  return Σdev / (Sx*Sy) / (x.length -1);
+  // var Σx = x.Σ(),
+  //     Σy = y.Σ(),
+  //     Σxy = x.Σ(y),
+  //     Σx2 = x.ΣdevSq(),
+  //     Σy2 = y.ΣdevSq();
+  // return (Σxy - Σx*Σy / x.length) / sqrt(Σx2*Σy2 / (x.length-1));
+}
+
+// equation of regression line
+const frl = (x, y) => {
+  if (!x.length || !y.length) return undefined;
+  var Mx = mean(x), Sx = sample(x, Mx),
+      My = mean(y), Sy = sample(y, My),
+      r_ = r(x, y, [Mx, My], [Sx, Sy]),
+      slope = r_ * Sy / Sx,
+      intercept = My - slope * Mx;
+  return `y = ${slope.toFixed(2)}x ${0<=intercept?'+':'-'} ${Math.abs(intercept)}`;
+}
 
 module.exports = {
   min, max,
@@ -70,6 +98,7 @@ module.exports = {
   median,
   mode,
   sample,
+  r, frl,
 };
 
 
