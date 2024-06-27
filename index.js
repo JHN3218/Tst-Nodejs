@@ -15,12 +15,11 @@ const
   tst,
 } = require('./silly-math-libs')
 ,{
-  min,
-  max,
-  mean,
-  add2mean,
+  min, max,
+  mean, add1mean, sub1mean, modfyMean,
   median,
   mode,
+  sample,
 } = require('./silly-statistics-libs')
 ,{
   GeminiAI,
@@ -46,11 +45,13 @@ const
 
 
 const prompt = `
-R² in statistic
+create 2 proofs for the equation by modifying each sides (LHS & RHS):
+(ml+x)/(l+1)=m+(x-m)/(l+1)
 `;
 // GeminiAI(prompt);
 // OpenAI(prompt);
 // ClaudeAI(prompt,'','Haiku');
 
 // tst(.5)
+
 

@@ -1,4 +1,4 @@
-const { clog } = require('./silly-libs')
+const { clog, dlog } = require('./silly-libs')
 
 const min = arr =>
   arr.length?
@@ -23,9 +23,23 @@ const mean = arr =>
     arr.Σ() / arr.length
   :undefined;
 
-const add2mean = (mean, ln, nv) =>
+const add1mean = (mean, ln, nv) =>
   mean + (nv-mean)/(ln+1);
   // (mean*ln + nv) / (ln+1);
+
+const sub1mean = (mean, ln, nv) =>
+  mean + (mean-nv)/(ln-1);
+  // (mean*ln - nv) / (ln-1);
+
+const modfyMean = (mean, ln, nvarr) => {
+  var Σnv = 0;
+  mean *= ln;
+  for (let i=0; i<nvarr.length; i++) {
+    Σnv += nvarr[i];
+    ln += 0<=nvarr[i]? 1 :-1;
+  }
+  return (mean+Σnv) / ln;
+}
 
 const median = arr =>
   arr.length?
@@ -45,4 +59,24 @@ const mode = arr => {
   return result;
 }
 
-module.exports = { min, max, mean, add2mean, median, mode };
+const sample = (arr, mean = null) =>
+  arr.length?
+    sqrt(arr.ΣdevSq(mean) / (arr.length-1))
+  :undefined;
+
+module.exports = {
+  min, max,
+  mean, add1mean, sub1mean, modfyMean,
+  median,
+  mode,
+  sample,
+};
+
+
+Array.prototype.ΣdevSq = function(m = null) {
+  var Σ = 0;
+  if (m===null) m = mean(this);
+  for (let i=0; i<this.length; i++)
+    Σ += (this[i]-m)**2;
+  return Σ;
+}
