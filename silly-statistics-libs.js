@@ -31,14 +31,15 @@ const sub1mean = (mean, ln, nv) =>
   mean + (mean-nv)/(ln-1);
   // (mean*ln - nv) / (ln-1);
 
-const modfyMean = (mean, ln, nvarr) => {
-  var Σnv = 0;
+const modfyMean = (mean, ln, nvarr, inc=true) => {
   mean *= ln;
   for (let i=0; i<nvarr.length; i++) {
-    Σnv += nvarr[i];
-    ln += 0<=nvarr[i]? 1 :-1;
+    mean += nvarr[i];
+    ln += inc || 0<=nvarr[i]? 1 :-1;
   }
-  return (mean+Σnv) / ln;
+  // ensure ln is positive
+  return 0<ln? undefined
+    :mean/ln;
 }
 
 const median = arr =>
@@ -69,10 +70,10 @@ const r = (x, y ,M=[] ,S=[]) => {
   if (!x.length || !y.length) return undefined;
   var [Mx,My] = [ M[0]||mean(x), M[1]||mean(y) ],
       [Sx,Sy] = [ S[0]||sample(x,Mx), S[1]||sample(y,My) ],
-      Σdev = 0;
+      ΣAdev = 0; // sum of deviation area
   for (let i=0; i<x.length; i++)
-    Σdev += (x[i]-Mx)*(y[i]-My);
-  return Σdev / (Sx*Sy) / (x.length -1);
+    ΣAdev += (x[i]-Mx)*(y[i]-My);
+  return ΣAdev / (Sx*Sy) / (x.length -1);
   // var Σx = x.Σ(),
   //     Σy = y.Σ(),
   //     Σxy = x.Σ(y),
@@ -84,12 +85,13 @@ const r = (x, y ,M=[] ,S=[]) => {
 // equation of regression line
 const frl = (x, y) => {
   if (!x.length || !y.length) return undefined;
-  var Mx = mean(x), Sx = sample(x, Mx),
-      My = mean(y), Sy = sample(y, My),
-      r_ = r(x, y, [Mx, My], [Sx, Sy]),
-      slope = r_ * Sy / Sx,
-      intercept = My - slope * Mx;
-  return `y = ${slope.toFixed(2)}x ${0<=intercept?'+':'-'} ${Math.abs(intercept)}`;
+  const Mx = mean(x), Sx = sample(x, Mx),
+        My = mean(y), Sy = sample(y, My),
+        r_ = r(x, y, [Mx, My], [Sx, Sy]),
+        slope = r_ * Sy / Sx,
+        intercept = My - slope * Mx;
+  clog(`y = ${slope.toFixed(2)}x ${0<=intercept?'+':'-'} ${Math.abs(intercept)}`);
+  return {m:slope,b:intercept};
 }
 
 module.exports = {
