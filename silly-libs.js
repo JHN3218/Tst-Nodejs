@@ -1,7 +1,7 @@
 const [ø, clog] = [null, console.log];
 
 function dlog(exprVal, ...y) {
-  let output = [];
+  var output = [];
   if (y.length) {
     output.push(exprVal, ...y.slice(1));
     let f = y[0];
@@ -15,9 +15,9 @@ function dlog(exprVal, ...y) {
   return exprVal;
 }
 
-function test(f) {
+function test(f, ...p) {
   try {
-    return f();
+    return f(...p);
   } catch (err) {
     clog(err.message);
     return false;
@@ -25,8 +25,8 @@ function test(f) {
 }
 
 function MergeObjs(add = false, replace = false) {
-  let result;
-  let MergeFunc = DeepMerge;
+  var result,
+      MergeFunc = DeepMerge;
   return (...objs) => {
     result = structuredClone(objs[0]);
     if (1 < objs.length) {
