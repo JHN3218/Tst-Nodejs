@@ -1,9 +1,8 @@
 const
 {
   ø,
-  clog,
-  dlog,
-  test,
+  clog, dlog,
+  testCheck,
   loop,
   is,
   MergeObjs,
@@ -17,6 +16,7 @@ const
 ,{
   min, max,
   mean, add1mean, sub1mean, modfyMean,
+  meanPerPos, meanProduct,
   median,
   mode,
   sample,
@@ -56,4 +56,11 @@ create 2 proofs for the equation by modifying each sides (LHS & RHS):
 // tst(.5)
 
 
-clog(frl([1,2,2,3],[1,2,3,6]))
+//clog(frl([1,2,2,3],[1,2,3,6]))
+clog(
+  mean(
+    [1,2,2,3],
+    [1,2,3,6]
+  )
+)
+clog(meanProduct([1,1],[2,2],[2,3],[3,6]))
