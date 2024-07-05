@@ -1,21 +1,17 @@
 const [ø, clog] = [null, console.log];
 
 function dlog(exprVal, ...y) {
-  var output = [];
-  if (y.length) {
-    output.push(exprVal, ...y.slice(1));
-    let f = y[0];
-    if (is(f).Function()) {
-      f(...output) && clog(...output);
-      return exprVal;
-    } else
-      output.unshift("" + f);
+  const output = [exprVal, ...y.slice(1)];
+  if (y.length && typeof y[0] === 'function')
+    y[0](...output) && clog(...output);
+  else {
+    output.unshift(y[0] || '');
+    clog(...output);
   }
-  clog(...output);
   return exprVal;
 }
 
-function test(f, ...p) {
+function testCheck(f, ...p) {
   try {
     return f(...p);
   } catch (err) {
@@ -155,4 +151,4 @@ function is(...x) {
   return members;
 }
 
-module.exports = { ø, clog, dlog, test, loop, is, MergeObjs };
+module.exports = { ø, clog, dlog, testCheck, loop, is, MergeObjs };
