@@ -2,8 +2,15 @@ const [ø, clog] = [null, console.log];
 
 function dlog(exprVal, ...y) {
   let output = [];
-  if (y.length) output.push("" + y[0]);
-  output.push(exprVal, ...y.slice(1));
+  if (y.length) {
+    output.push(exprVal, ...y.slice(1));
+    let f = y[0];
+    if (is(f).Function()) {
+      f(...output) && clog(...output);
+      return exprVal;
+    } else
+      output.unshift("" + f);
+  }
   clog(...output);
   return exprVal;
 }
