@@ -1,6 +1,6 @@
 const { ø, clog, dlog, loop, is } = require("./silly-libs");
 
-const permute = (input, ln = 0) => {
+function permute(input, ln = 0) {
   let result = [];
   if (input.length || input) {
     // set input as sorted array
@@ -31,7 +31,18 @@ const permute = (input, ln = 0) => {
 const factorial = (n) =>
   loop([1, Math.round(Math.abs(n))], (i, r) => (r *= i), 1);
 
-const tst = (n) => {
+function ΣΠ(...arr) {
+  var result = 0;
+  for (let i=0; i<arr.length; i++) {
+    let product = this[i];
+    for (let j=0; j<arr[i].length; j++)
+      product*=arr[i][j];
+    result+=product;
+  }
+  return result;
+}
+
+function tst(n) {
   const ttlDay=365
   let result=1, d=ttlDay
   for (var i=1; 1-result<=n && i<=ttlDay; i++)
@@ -39,20 +50,15 @@ const tst = (n) => {
   return result
 }
 
-module.exports = { permute, factorial, tst };
+module.exports = { permute, factorial, ΣΠ, tst };
 
-Array.prototype.Σ = function() {
-  var result = 0
-  if (!this.length) return undefined
-  for(let i=0; i<this.length; i++)
-    result+=this[i]
-  return result
-}
+Array.prototype.Σ = function(...arr) {
+  if (!this.length) return undefined;
+  return this.reduce((sum, val, i) => 
+    sum + val + (arr.length ? arr.reduce((s, a) => s + a[i], 0) : 0), 0);
+};
 
 Array.prototype.Π = function() {
-  var result = 1
   if (!this.length) return undefined
-  for(let i=0; i<this.length; i++)
-    result*=this[i]
-  return result
+  return this.reduce((sum, val) => sum * val, 1);
 }
