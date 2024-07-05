@@ -1,4 +1,4 @@
-const { clog, dlog } = require('./silly-libs')
+const { ø, clog, dlog } = require('./silly-libs')
 
 const min = arr =>
   arr.length?
@@ -18,16 +18,22 @@ const max = arr =>
     arr.reduce((r,i) => Math.max(r,i))
   :undefined;
 
-const mean = (...arr) =>
+const mean = (...arr) => {
   // arr = [[x],[y],[z],…]
-  arr.length===1 ?
-    arr[0].Σ() / arr[0].length
-  :1<arr.length ?
-    arr[0].reduce((sum, _, j) => 
-      sum + arr.reduce((prod, a) =>
-            prod * a[j], 1) ,0)
-      / arr[0].length
-  :undefined;
+  if (!arr.length) return undefined;
+  var sum;
+  if (arr.length==1) sum = arr[0].Σ();
+  else if (typeof arr[arr.length-1] === 'function') {
+    const f = arr.pop();
+    sum = arr[0].reduce((Σ, _, j) =>
+          Σ + arr.reduce((prod, a) =>
+              f(prod,a[j]), 1), 0);
+  } else
+    sum = arr[0].reduce((Σ, _, j) => 
+          Σ + arr.reduce((prod, a) =>
+              prod * a[j], 1), 0);
+  return sum / arr[0].length;
+};
 
 const add1mean = (mean, ln, nv) =>
   mean + (nv-mean)/(ln+1);
@@ -80,7 +86,7 @@ const mode = arr => {
   return result;
 }
 
-const sample = (arr, mean = null) =>
+const sample = (arr, mean=ø) =>
   arr.length?
     Math.sqrt(arr.ΣdevSq(mean) / (arr.length-1))
   :undefined;
@@ -103,17 +109,19 @@ const r = (x, y ,M=[] ,S=[]) => {
 }
 
 // equation of regression line
-const frl = (x, y) => {
+const frln = (x, y) => {
   if (!x.length || !y.length) return undefined;
-  const Mx = mean(x), Sx = sample(x, Mx),
-        My = mean(y), Sy = sample(y, My),
-        r_ = r(x, y, [Mx, My], [Sx, Sy]),
-        slope = r_ * Sy / Sx,
-        // (Mx*My - Mxy)/(Mx**2 - M_xSq)
-        // (Mx*y - Mx*My)/(M_xSq - Mx**2)
-        intercept = My - slope * Mx;
-  clog(`y = ${slope.toFixed(2)}x ${0<=intercept?'+':'-'} ${Math.abs(intercept)}`);
-  return {m:slope,b:intercept};
+  const [Mx,My] = [mean(x),mean(y)],
+        M_xSq = mean(x,x), Mxy = mean(x,y),
+        slope = (Mx*My - Mxy)/(Mx**2 - M_xSq),
+        // (Mxy - Mx*My)/(M_xSq - Mx**2),
+        // [Sx,Sy] = [sample(x, Mx),sample(y, My)],
+        // r_ = r(x, y, [Mx, My], [Sx, Sy]),
+        // slope = r_ * Sy / Sx,
+        intercept = My - slope*Mx,
+        [m,b] = [slope,intercept];
+  clog(`y = ${m.toFixed(2).replace(/\.?0*$/,'')}x ${0<=b?'+':'-'} ${Math.abs(b)}`);
+  return {m,b};
 }
 
 module.exports = {
@@ -123,13 +131,13 @@ module.exports = {
   median,
   mode,
   sample,
-  r, frl,
+  r, frln,
 };
 
 
-Array.prototype.ΣdevSq = function(m = null) {
+Array.prototype.ΣdevSq = function(m=ø) {
   let Σ = 0;
-  if (m===null) m = mean(this);
+  if (m===ø) m = mean(this);
   for (let i=0; i<this.length; i++)
     Σ += (this[i]-m)**2;
   return Σ;

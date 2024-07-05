@@ -20,7 +20,7 @@ const
   median,
   mode,
   sample,
-  r, frl
+  r, frln
 } = require('./silly-statistics-libs')
 ,{
   GeminiAI,
@@ -30,7 +30,7 @@ const
 // ,NeuralNetwork = require('./NN')
 
 //clog(dlog(123,'abc'));
-//clog(!(''||([]).length||null));
+//clog(!(''||([]).length||ø));
 // clog(permute('1725',3).join('\n'));
 // JSON.parse(jsonData))
 //loop(10,()=>dlog(is(dlog(Math.round(Math.random()*100))).inRange(25,75)));
@@ -56,11 +56,19 @@ create 2 proofs for the equation by modifying each sides (LHS & RHS):
 // tst(.5)
 
 
-//clog(frl([1,2,2,3],[1,2,3,6]))
-clog(
-  mean(
-    [1,2,2,3],
-    [1,2,3,6]
-  )
-)
-clog(meanProduct([1,1],[2,2],[2,3],[3,6]))
+
+// statistics testing
+const
+a_x = [1,2,2,3],
+a_y = [1,2,3,6],
+a_xy = [
+  [1,1],
+  [2,2],
+  [2,3],
+  [3,6],
+];
+clog(frln(a_x,a_y))
+/*
+clog(mean(a_x,a_y))
+clog(meanProduct(a_xy))
+*/
