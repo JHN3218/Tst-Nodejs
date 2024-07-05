@@ -18,9 +18,15 @@ const max = arr =>
     arr.reduce((r,i) => Math.max(r,i))
   :undefined;
 
-const mean = arr =>
-  arr.length?
-    arr.Σ() / arr.length
+const mean = (...arr) =>
+  // arr = [[x],[y],[z],…]
+  arr.length===1 ?
+    arr[0].Σ() / arr[0].length
+  :1<arr.length ?
+    arr[0].reduce((sum, _, j) => 
+      sum + arr.reduce((prod, a) =>
+            prod * a[j], 1) ,0)
+      / arr[0].length
   :undefined;
 
 const add1mean = (mean, ln, nv) =>
@@ -33,7 +39,7 @@ const sub1mean = (mean, ln, nv) =>
 
 const modfyMean = (mean, ln, nvarr, inc=true) => {
   mean *= ln;
-  for (let i=0; i<nvarr.length; i++) {
+  for (let i=0; 0<ln && i<nvarr.length; i++) {
     mean += nvarr[i];
     ln += inc || 0<=nvarr[i]? 1 :-1;
   }
@@ -42,6 +48,20 @@ const modfyMean = (mean, ln, nvarr, inc=true) => {
     :mean/ln;
 }
 
+const meanPerPos = (...coord) =>
+  // coord = [[x_i,y_i,z_i,…],…]
+  coord[0].map((_, i) => 
+    coord.reduce((sum, c) =>
+    sum + c[i], 0)
+    / coord.length
+  );
+
+const meanProduct = (...coord) =>
+  coord.reduce((sum, pos) =>
+    sum + pos.reduce((prod, v) =>
+          prod * v, 1), 0)
+    / coord.length;
+
 const median = arr =>
   arr.length?
     arr.sort((a,b)=>a-b)[0|arr.length/2]
@@ -49,8 +69,8 @@ const median = arr =>
 
 const mode = arr => {
   if (!arr.length) return undefined;
-  var countr = {},
-      result = arr[0];
+  const countr = {};
+  var result = arr[0];
   for (let i=0; i<arr.length; i++) {
     let v = arr[i];
     countr[v] = (countr[v] || 0) + 1;
@@ -68,9 +88,9 @@ const sample = (arr, mean = null) =>
 // Correlation coefficient r
 const r = (x, y ,M=[] ,S=[]) => {
   if (!x.length || !y.length) return undefined;
-  var [Mx,My] = [ M[0]||mean(x), M[1]||mean(y) ],
-      [Sx,Sy] = [ S[0]||sample(x,Mx), S[1]||sample(y,My) ],
-      ΣAdev = 0; // sum of deviation area
+  const [Mx,My] = [ M[0]||mean(x), M[1]||mean(y) ],
+        [Sx,Sy] = [ S[0]||sample(x,Mx), S[1]||sample(y,My) ];
+  var ΣAdev = 0; // sum of deviation area
   for (let i=0; i<x.length; i++)
     ΣAdev += (x[i]-Mx)*(y[i]-My);
   return ΣAdev / (Sx*Sy) / (x.length -1);
@@ -89,6 +109,8 @@ const frl = (x, y) => {
         My = mean(y), Sy = sample(y, My),
         r_ = r(x, y, [Mx, My], [Sx, Sy]),
         slope = r_ * Sy / Sx,
+        // (Mx*My - Mxy)/(Mx**2 - M_xSq)
+        // (Mx*y - Mx*My)/(M_xSq - Mx**2)
         intercept = My - slope * Mx;
   clog(`y = ${slope.toFixed(2)}x ${0<=intercept?'+':'-'} ${Math.abs(intercept)}`);
   return {m:slope,b:intercept};
@@ -97,6 +119,7 @@ const frl = (x, y) => {
 module.exports = {
   min, max,
   mean, add1mean, sub1mean, modfyMean,
+  meanPerPos, meanProduct,
   median,
   mode,
   sample,
@@ -105,7 +128,7 @@ module.exports = {
 
 
 Array.prototype.ΣdevSq = function(m = null) {
-  var Σ = 0;
+  let Σ = 0;
   if (m===null) m = mean(this);
   for (let i=0; i<this.length; i++)
     Σ += (this[i]-m)**2;
