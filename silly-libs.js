@@ -106,7 +106,7 @@ function loop(ln, func, returnVal = 0) {
   
   // Loop from i to end with the specified step, unless cond.exit is set to true.
   for (; !cond.exit && i < end; i += step)
-    func(i, returnVal, cond);  // Execute the callback function.
+    returnVal = func(i, returnVal, cond);  // Execute the callback function.
   
   return returnVal;  // Return the accumulated value.
 }
