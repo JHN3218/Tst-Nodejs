@@ -108,12 +108,21 @@ const r = (x, y ,M=[] ,S=[]) => {
   // return (Σxy - Σx*Σy / x.length) / sqrt(Σx2*Σy2 / (x.length-1));
 }
 
+// covariance
+const cov = (P,M=[]) =>
+  // p = [x,y,…]; M = [mx,my,…]
+  // Mx*My - Mxy
+  (M.length
+    ?M.reduce((Π,m)=>Π*m,1)
+    :P.reduce((Π,p)=>Π*mean(p),1)
+  ) - mean(...P);
+
 // equation of regression line
 const frln = (x, y) => {
   if (!x.length || !y.length) return undefined;
   const [Mx,My] = [mean(x),mean(y)],
-        M_xSq = mean(x,x), Mxy = mean(x,y),
-        slope = (Mx*My - Mxy)/(Mx**2 - M_xSq),
+        slope = cov([x,y],[Mx,My]) / cov([x,x],[Mx,Mx])
+        // (Mx*My - Mxy)/(Mx**2 - M_xSq),
         // (Mxy - Mx*My)/(M_xSq - Mx**2),
         // [Sx,Sy] = [sample(x, Mx),sample(y, My)],
         // r_ = r(x, y, [Mx, My], [Sx, Sy]),
