@@ -1,7 +1,7 @@
 const { ø, clog, dlog, loop, is } = require("./silly-libs");
 
 function permute(input, ln = 0) {
-  let result = [];
+  const result = [];
   if (input.length || input) {
     // set input as sorted array
     input = (!is(input).Object() ? ("" + input).split("") : input).sort();

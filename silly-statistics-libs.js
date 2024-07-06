@@ -21,7 +21,7 @@ const max = arr =>
 const mean = (...arr) => {
   // arr = [[x],[y],[z],…]
   if (!arr.length) return undefined;
-  var sum;
+  let sum;
   if (arr.length==1) sum = arr[0].Σ();
   else if (typeof arr[arr.length-1] === 'function') {
     const f = arr.pop();
@@ -76,7 +76,7 @@ const median = arr =>
 const mode = arr => {
   if (!arr.length) return undefined;
   const countr = {};
-  var result = arr[0];
+  let result = arr[0];
   for (let i=0; i<arr.length; i++) {
     let v = arr[i];
     countr[v] = (countr[v] || 0) + 1;
@@ -95,10 +95,10 @@ const sample = (arr, mean=ø) =>
 const r = (x, y ,M=[] ,S=[]) => {
   if (!x.length || !y.length) return undefined;
   const [Mx,My] = [ M[0]||mean(x), M[1]||mean(y) ],
-        [Sx,Sy] = [ S[0]||sample(x,Mx), S[1]||sample(y,My) ];
-  var ΣAdev = 0; // sum of deviation area
-  for (let i=0; i<x.length; i++)
-    ΣAdev += (x[i]-Mx)*(y[i]-My);
+        [Sx,Sy] = [ S[0]||sample(x,Mx), S[1]||sample(y,My) ],
+        // sum of deviation area
+        ΣAdev = x.reduce((Σ, _, i) =>
+                Σ + (x[i]-Mx)*(y[i]-My), 0);
   return ΣAdev / (Sx*Sy) / (x.length -1);
   // var Σx = x.Σ(),
   //     Σy = y.Σ(),
@@ -136,9 +136,7 @@ module.exports = {
 
 
 Array.prototype.ΣdevSq = function(m=ø) {
-  let Σ = 0;
   if (m===ø) m = mean(this);
-  for (let i=0; i<this.length; i++)
-    Σ += (this[i]-m)**2;
-  return Σ;
+  return this.reduce((Σ,v) =>
+         Σ + (v-m)**2, 0)
 }
