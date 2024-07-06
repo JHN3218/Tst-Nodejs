@@ -28,8 +28,31 @@ function permute(input, ln = 0) {
   }
 };
 
-const factorial = (n) =>
-  loop([1, Math.round(Math.abs(n))], (i, r) => (r *= i), 1);
+function combination(input, ln = 0) {
+  
+}
+
+const factorial = (_=> {
+  const fact = [1]; // static var - memoization
+  return n => {
+    n = Math.round(n);
+    return n<0? 0 :fact[n] ||
+           loop([fact.length,n+1],
+               (i,r) => fact[i]=r*i, 1);
+} })();
+
+const P = (n,r=n) => factorial(n)/factorial(n-r);
+const C = (n,k=n) => P(n,k)/factorial(k);
+
+const fibonacci = (_=> {
+  const fib = [0, 1]; // static var - memoization
+  return n => {
+    n = Math.round(Math.abs(n));
+    return fib[n] ||
+           loop([2,n+1], i => fib[i] ||
+               (fib[i] = fib[i-1]+fib[i-2]));
+  }
+})();
 
 function ΣΠ(...arr) {
   var result = 0;
@@ -50,7 +73,13 @@ function tst(n) {
   return result
 }
 
-module.exports = { permute, factorial, ΣΠ, tst };
+module.exports = {
+  permute, combination,
+  fibonacci,
+  factorial, P, C,
+  ΣΠ,
+  tst
+};
 
 Array.prototype.Σ = function(...arr) {
   if (!this.length) return undefined;
