@@ -54,7 +54,38 @@ function combination(arr, k = arr.length) {
     }
   }
   return result;
-}
+};
+
+function permbinate(arr, ln = arr.length, type = 'permutation') {
+  const result = [];
+  backtrack([], arr);
+  return result;
+
+  function backtrack(current, remaining) {
+    if (current.length === ln) {
+      result.push([...dlog(current,'push to result:')]);
+      return;
+    }
+
+    for (let i = 0; i < remaining.length; i++) {
+      current.push(dlog(remaining[i],`push remain[${i}]:`,'→',current));
+      if (type === 'permutation') {
+        backtrack(
+          dlog(current,'new curr:','\n  remain:',remaining),
+          dlog([...remaining.slice(0, i), ...remaining.slice(i + 1)],
+               'slc remain:',`← (0,${i}):[${remaining.slice(0,i)}],(${i+1}):[${remaining.slice(i+1)}]`)
+        );
+      } else { // combination
+        backtrack(
+          dlog(current,'new curr:','\n  remain:',remaining),
+          dlog(remaining.slice(i + 1),
+               'slc remain:',`← (${i+1}):[${remaining.slice(i+1)}]`)
+        );
+      }
+      dlog(current.pop(),'pop curr:','←',current);
+    }
+  }
+};
 
 const factorial = (_ => {
   const fact = [1]; // static var - memoization
@@ -119,6 +150,7 @@ function tst(n) {
 module.exports = {
   permute,
   combination,
+  permbinate,
   fibonacci,
   factorial,
   P,
