@@ -1,4 +1,9 @@
-const { ø, clog, dlog } = require('./silly-libs')
+const {
+  ø, clog, dlog,
+} = require('./silly-libs'),
+{
+  Σ,Π,
+} = require('./silly-math-libs');
 
 const min = arr =>
   arr.length?
@@ -22,7 +27,7 @@ const mean = (...arr) => {
   // arr = [[x],[y],[z],…]
   if (!arr.length) return undefined;
   let sum;
-  if (arr.length==1) sum = arr[0].Σ();
+  if (arr.length==1) sum = Σ(arr[0]);
   else if (typeof arr[arr.length-1] === 'function') {
     const f = arr.pop();
     sum = arr[0].reduce((Σ, _, j) =>
@@ -88,7 +93,7 @@ const mode = arr => {
 
 const sample = (arr, mean=ø) =>
   arr.length?
-    Math.sqrt(arr.ΣdevSq(mean) / (arr.length-1))
+    Math.sqrt(ΣdevSq(arr,mean) / (arr.length-1))
   :undefined;
 
 // Correlation coefficient r
@@ -143,9 +148,16 @@ module.exports = {
   r, frln,
 };
 
+function ΣdevSq(arr, m=ø) {
+  if (m===ø) m=mean(arr);
+  return arr.reduce((Σ,v) =>
+         Σ + (v-m)**2, 0)
+};
 
+/*
 Array.prototype.ΣdevSq = function(m=ø) {
   if (m===ø) m = mean(this);
   return this.reduce((Σ,v) =>
          Σ + (v-m)**2, 0)
-}
+};
+*/
