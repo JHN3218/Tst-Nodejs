@@ -102,7 +102,8 @@ function loop(ln, func, returnVal = 0) {
   let cond = { exit: false };  // Object to control early exit of the loop.
   
   // Destructuring ln to determine start, end, and step values.
-  let [i, end, step] = [ln[0] || 0, ln[1] || ln, ln[2] || 1];
+  let [i, end] = [ln[0] || 0, ln[1] || ln],
+      step = ln[2] || i<=end? 1 :-1;
   
   // Loop from i to end with the specified step, unless cond.exit is set to true.
   for (; !cond.exit && i < end; i += step)
