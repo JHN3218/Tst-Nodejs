@@ -11,6 +11,7 @@ const
 ,{
   permute,
   factorial,
+  P, C,
   tst,
 } = require('./silly-math-libs')
 ,{
@@ -54,10 +55,12 @@ create 2 proofs for the equation by modifying each sides (LHS & RHS):
 // ClaudeAI(prompt);
 
 // tst(.5)
+clog(P(3))
 
 
 
 // statistics testing
+/*
 const
 a_x = [1,2,2,3],
 a_y = [1,2,3,6],
@@ -68,7 +71,6 @@ a_xy = [
   [3,6],
 ];
 clog(frln(a_x,a_y))
-/*
 clog(mean(a_x,a_y))
 clog(meanProduct(a_xy))
 */
