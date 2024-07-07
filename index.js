@@ -9,7 +9,8 @@ const
 } = require("./silly-libs")
 // ,{clipboardy} = require('clipboardy')
 ,{
-  permute,
+  permute, combination, permbinate,
+  fibonacci,
   factorial,
   P, C,
   tst,
@@ -32,7 +33,9 @@ const
 
 //clog(dlog(123,'abc'));
 //clog(!(''||([]).length||ø));
-// clog(permute('1725',3).join('\n'));
+// clog(permute('1725',2).join('\n'));
+// clog(combination('1725'.split(''),3));
+clog(permbinate('abc'.split('')))
 // JSON.parse(jsonData))
 //loop(10,()=>dlog(is(dlog(Math.round(Math.random()*100))).inRange(25,75)));
 // a=[{a:1,b:2,c:[7,8,9],hh:[5,5,5]}];
@@ -55,7 +58,7 @@ create 2 proofs for the equation by modifying each sides (LHS & RHS):
 // ClaudeAI(prompt);
 
 // tst(.5)
-clog(P(3))
+clog(P(4))
 
 
 
