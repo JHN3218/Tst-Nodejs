@@ -36,21 +36,25 @@ const factorial = (_=> {
   const fact = [1]; // static var - memoization
   return n => {
     n = Math.round(n);
-    return n<0? 0 :fact[n] ||
-           loop([fact.length,n+1],
-               (i,r) => fact[i]=r*i, 1);
+    // return n<0? undefined
+    //   :fact[n] ||= n * factorial(n-1);
+    return n<0? undefined :fact[n] ||
+      loop([fact.length,n+1],
+          (i,r) => fact[i]=r*i, 1);
 } })();
 
-const P = (n,r=n) => factorial(n)/factorial(n-r);
-const C = (n,k=n) => P(n,k)/factorial(k);
+const P = (n,r=n) => factorial(n)/factorial(n-Math.min(r,n));
+const C = (n,k=n) => P(n,k)/factorial(Math.min(k,n));
 
 const fibonacci = (_=> {
   const fib = [0, 1]; // static var - memoization
   return n => {
     n = Math.round(Math.abs(n));
-    return fib[n] ||
-           loop([2,n+1], i => fib[i] ||
-               (fib[i] = fib[i-1]+fib[i-2]));
+    // return n<0? undefined
+    //   :fib[n] ||= fibonacci(n-1)+fibonacci(n-2);
+    return n<0? undefined:fib[n] ||
+      loop([fib.length,n+1], i =>
+           fib[i] = fib[i-1]+fib[i-2]);
   }
 })();
 
@@ -88,6 +92,6 @@ Array.prototype.Σ = function(...arr) {
 };
 
 Array.prototype.Π = function() {
-  if (!this.length) return undefined
+  if (!this.length) return undefined;
   return this.reduce((sum, val) => sum * val, 1);
 }
