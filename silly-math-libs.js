@@ -2,12 +2,12 @@ const { ø, clog, dlog, loop, is } = require('./silly-libs');
 
 /*
 function permute(arr, ln=arr.length) {
-  if (ln === 1) return arr.map(x => [x]);
+  if (ln===1) return arr.map(x => [x]);
   const result = [];
-  for (let i = 0; i<arr.length; i++) {
+  for (let i=0; i<arr.length; i++) {
     const current = arr[i];
-    const rest = arr.slice(0, i).concat(arr.slice(i + 1));
-    for (let p of permute (rest, ln - 1)) {
+    const rest = arr.slice(0,i).concat(arr.slice(i+1));
+    for (let p of permute(rest, ln-1)) {
       result.push([current, ...p]);
     }
   }
@@ -19,8 +19,8 @@ function permute(input, ln = 0) {
   const result = [];
   if (input.length || input) {
     // set input as sorted array
-    input = (!is(input).Object() ? ('' + input).split('') : input).sort();
-    if (input.length <= ln) ln = 0;
+    input = (!is(input).Object()? ('' + input).split('') : input).sort();
+    if (input.length<=ln) ln=0;
     perm(input, ln);
   }
   return result;
@@ -67,18 +67,18 @@ function permbinate(arr, ln = arr.length, type = 'permutation') {
       return;
     }
 
-    for (let i = 0; i < remaining.length; i++) {
+    for (let i=0; i<remaining.length; i++) {
       current.push(dlog(remaining[i],`push remain[${i}]:`,'→',current));
       if (type === 'permutation') {
         backtrack(
           dlog(current,'new curr:','\n  remain:',remaining),
-          dlog([...remaining.slice(0, i), ...remaining.slice(i + 1)],
+          dlog([...remaining.slice(0,i), ...remaining.slice(i+1)],
                'slc remain:',`← (0,${i}):[${remaining.slice(0,i)}],(${i+1}):[${remaining.slice(i+1)}]`)
         );
       } else { // combination
         backtrack(
           dlog(current,'new curr:','\n  remain:',remaining),
-          dlog(remaining.slice(i + 1),
+          dlog(remaining.slice(i+1),
                'slc remain:',`← (${i+1}):[${remaining.slice(i+1)}]`)
         );
       }
@@ -93,57 +93,68 @@ const factorial = (_ => {
     n = Math.round(n);
     // return n<0? undefined
     //   :fact[n] ||= n * factorial(n-1);
-    return n < 0 ? undefined : fact[n] ||
-      loop([fact.length, n + 1], (i, r) =>
-        (fact[i] = r * i), 1);
+    return n<0? undefined :fact[n] ||
+      loop([fact.length, n+1], (i,r) =>
+        (fact[i] = r*i), 1);
   };
 })();
 
-const P = (n, r = n) => factorial(n) / factorial(n - Math.min(r, n));
-const C = (n, k = n) => P(n, k) / factorial(Math.min(k, n));
+const P = (n, r=n) => factorial(n) / factorial(n - Math.min(r, n));
+const C = (n, k=n) => P(n, k) / factorial(Math.min(k, n));
 
 const fibonacci = (_ => {
-  const fib = [0, 1]; // static var - memoization
+  const fib = [0,1]; // static var - memoization
   return n => {
     n = Math.round(Math.abs(n));
     // return n<0? undefined
     //   :fib[n] ||= fibonacci(n-1)+fibonacci(n-2);
-    return n < 0 ? undefined : fib[n] ||
-      loop([fib.length, n + 1], i =>
-      (fib[i] = fib[i - 1] + fib[i - 2]));
+    return n<0? undefined :fib[n] ||
+      loop([fib.length, n+1], i =>
+      (fib[i] = fib[i-1] + fib[i-2]));
   };
 })();
 
 function Σ(...arr) {
   if (!arr.length) return undefined;
-  return arr[0].reduce(
-    (sum, val, i) => sum + val + (1 < arr.length ? arr.slice(1).reduce((s, a) => s + a[i], 0) : 0),
-    0,
-  );
+  return arr.reduce((sum,a) =>
+         a.reduce((_,val) =>
+           sum+=val ,ø
+         ),0);
 }
 
 function Π(arr) {
   if (!arr.length) return undefined;
   return arr.reduce((sum, val) =>
-    sum * val, 1);
+    sum*val, 1);
 }
 
 function ΣΠ(...arr) {
-  var result = 0;
+  if (!arr.length) return undefined;
+  return arr.reduce((sum,a) =>
+    sum + Π(a),0);
+  /*
+  var result = 0,
+      product = 1;
   for (let i = 0; i < arr.length; i++) {
-    let product = this[i];
     for (let j = 0; j < arr[i].length; j++)
       product *= arr[i][j];
     result += product;
   }
   return result;
+  */
+}
+
+function ΣSeq(Z) {
+  return Z*(Z+1)/2
+  // return loop([1,Z+1], (i,r) => i+r, 0));
 }
 
 function tst(n) {
   const ttlDay = 365;
   let result = 1,
-    d = ttlDay;
-  for (var i = 1; 1 - result <= n && i <= ttlDay; i++) clog(i, --d, (result *= d / ttlDay));
+      d = ttlDay;
+  for (var i = 1; 1 - result <= n && i <= ttlDay; i++)
+    clog(i, --d, (result *= d / ttlDay));
   return result;
 }
 
@@ -157,7 +168,7 @@ module.exports = {
   C,
   Σ,
   Π,
-  ΣΠ,
+  ΣΠ, ΣSeq,
   tst,
 };
 
