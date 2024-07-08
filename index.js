@@ -13,6 +13,8 @@ const
   fibonacci,
   factorial,
   P, C,
+  Σ, Π,
+  ΣΠ, ΣSeq,
   tst,
 } = require('./silly-math-libs')
 ,{
@@ -33,9 +35,7 @@ const
 
 //clog(dlog(123,'abc'));
 //clog(!(''||([]).length||ø));
-// clog(permute('1725',2).join('\n'));
-// clog(combination('1725'.split(''),3));
-clog(permbinate('abc'.split('')))
+// clog(permbinate('abc'.split('')))
 // JSON.parse(jsonData))
 //loop(10,()=>dlog(is(dlog(Math.round(Math.random()*100))).inRange(25,75)));
 // a=[{a:1,b:2,c:[7,8,9],hh:[5,5,5]}];
@@ -58,8 +58,11 @@ create 2 proofs for the equation by modifying each sides (LHS & RHS):
 // ClaudeAI(prompt);
 
 // tst(.5)
-clog(P(4))
 
+clog(
+  Σ([1,2,3,4,5,6,7,8,9,10],[1]),
+  ΣSeq(10)
+)
 
 
 // statistics testing
