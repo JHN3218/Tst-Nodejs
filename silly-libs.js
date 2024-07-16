@@ -4,10 +4,9 @@ function dlog(exprVal, ...y) {
   const output = [exprVal, ...y.slice(1)];
   if (y.length && typeof y[0] === 'function')
     y[0](...output) && clog(...output);
-  else {
-    output.unshift(y[0] || '');
-    clog(...output);
-  }
+  else
+    clog(y[0],...output);
+
   return exprVal;
 }
 
@@ -103,7 +102,7 @@ function loop(ln, func, returnVal = 0) {
   
   // Destructuring ln to determine start, end, and step values.
   let [i, end] = [ln[0] || 0, ln[1] || ln],
-      step = ln[2] || i<=end? 1 :-1;
+      step = ln[2] || (i<=end? 1 :-1);
   
   // Loop from i to end with the specified step, unless cond.exit is set to true.
   for (; !cond.exit && i < end; i += step)
@@ -152,4 +151,10 @@ function is(...x) {
   return members;
 }
 
-module.exports = { ø, clog, dlog, testCheck, loop, is, MergeObjs };
+module.exports = {
+  ø, clog,
+  dlog, testCheck,
+  loop,
+  is,
+  MergeObjs,
+};
