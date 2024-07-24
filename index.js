@@ -6,7 +6,9 @@ const
   loop,
   is,
   MergeObjs,
-} = require("./silly-libs")
+  convertDataColToRow,
+  convertDataRowToCol,
+} = require('./silly-libs')
 // ,{clipboardy} = require('clipboardy')
 ,{
   permute, combination, permbinate,
@@ -26,6 +28,7 @@ const
   sample,
   r, frln
 } = require('./silly-statistics-libs')
+,regression = require('regression')
 ,{
   GeminiAI,
   // OpenAI,
@@ -59,24 +62,23 @@ create 2 proofs for the equation by modifying each sides (LHS & RHS):
 
 // tst(.5)
 
+/*
 clog(
-  Σ([1,2,3,4,5,6,7,8,9,10],[1]),
+  Σ(loop(10,(i,r)=>(r.push(i+1),r),[]),[1]),
   ΣSeq(10)
 )
-
+*/
 
 // statistics testing
-/*
+//*
 const
-a_x = [1,2,2,3],
-a_y = [1,2,3,6],
-a_xy = [
-  [1,1],
-  [2,2],
-  [2,3],
-  [3,6],
-];
-clog(frln(a_x,a_y))
-clog(mean(a_x,a_y))
-clog(meanProduct(a_xy))
-*/
+a_x = [1,2,3,4,5,6,7],
+a_y = [1,4,22,151,1050,7350,51494],
+a_xy = convertDataColToRow(a_x,a_y);
+clog(frln(...convertDataRowToCol(a_xy)))
+// clog(regression.linear(a_xy))
+// clog(regression.polynomial(a_xy))
+// clog(regression.polynomial(a_xy,{order:3}))
+//clog(mean(a_x,a_y))
+//clog(meanProduct(a_xy))
+//*/
