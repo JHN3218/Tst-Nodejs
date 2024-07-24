@@ -111,6 +111,17 @@ function loop(ln, func, returnVal = 0) {
   return returnVal;  // Return the accumulated value.
 }
 
+function convertDataColToRow(...data) {
+  const l = data[0].length
+    ,result = [];
+  for (let i=0; i<l; i++) {
+    result[i] = [];
+    for (let j=0; j<data.length; j++)
+      result[i].push(data[j][i]);
+}
+  return result;
+}
+
 function is(...x) {
   const members = {
     Any: (...y) => x.some((v) => y.includes(v)),
@@ -157,4 +168,5 @@ module.exports = {
   loop,
   is,
   MergeObjs,
+  convertDataColToRow,
 };
