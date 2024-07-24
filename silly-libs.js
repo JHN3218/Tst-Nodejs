@@ -122,6 +122,16 @@ function convertDataColToRow(...data) {
   return result;
 }
 
+function convertDataRowToCol(data) {
+  const result = [];
+  for (let i=0; i<data[0].length; i++)
+    result[i] = [];
+  for (let i=0; i<data.length; i++)
+    for (let j=0; j<data[i].length; j++)
+      result[j].push(data[i][j]);
+  return result;
+}
+
 function is(...x) {
   const members = {
     Any: (...y) => x.some((v) => y.includes(v)),
@@ -169,4 +179,5 @@ module.exports = {
   is,
   MergeObjs,
   convertDataColToRow,
+  convertDataRowToCol,
 };
