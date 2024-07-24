@@ -4,8 +4,10 @@ function dlog(exprVal, ...y) {
   const output = [exprVal, ...y.slice(1)];
   if (y.length && typeof y[0] === 'function')
     y[0](...output) && clog(...output);
-  else
-    clog(y[0],...output);
+  else {
+    y[0] && output.unshift(y[0]);
+    clog(...output);
+  }
 
   return exprVal;
 }
