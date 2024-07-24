@@ -16,6 +16,7 @@
     "axios": "^1.6.7",
     "cheerio": "^1.0.0-rc.12",
     "node-fetch": "^3.2.6",
-    "openai": "^4.52.0"
+    "openai": "^4.52.0",
+    "regression": "^2.0.1"
   }
 }
