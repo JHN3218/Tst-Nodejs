@@ -149,6 +149,23 @@ function ΣSeq(Z) {
   // return loop([1,Z+1], (i,r) => i+r, 0));
 }
 
+function logarithm(base, x, precision = 15) {
+  let result = 0;
+  let multiplier = 1;
+  let increment = 1;
+
+  for (let i = 0; i < precision; i++) {
+    increment /= 2;
+    multiplier *= base;
+    if (multiplier <= x) {
+      result += increment;
+      x /= multiplier;
+    }
+  }
+
+  return result;
+}
+
 function tst(n) {
   const ttlDay = 365;
   let result = 1,
