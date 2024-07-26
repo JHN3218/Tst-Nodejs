@@ -17,6 +17,8 @@ const
   P, C,
   Σ, Π,
   ΣΠ, ΣSeq,
+  round, log,
+  logarithm,
   tst,
 } = require('./silly-math-libs')
 ,{
@@ -70,15 +72,16 @@ clog(
 */
 
 // statistics testing
-//*
+/*/
 const
 a_x = [1,2,3,4,5,6,7],
 a_y = [1,4,22,151,1050,7350,51494],
 a_xy = convertDataColToRow(a_x,a_y);
-clog(frln(...convertDataRowToCol(a_xy)))
+// clog(frln(...convertDataRowToCol(a_xy)))
 // clog(regression.linear(a_xy))
-// clog(regression.polynomial(a_xy))
-// clog(regression.polynomial(a_xy,{order:3}))
-//clog(mean(a_x,a_y))
+// clog(regression.polynomial(a_xy,{precision:0}))
+// clog(regression.polynomial(a_xy,{order:3, precision:0}))
+clog(regression.polynomial(dlog(a_xy.splice(0,4)),{order:3, precision:0}))//clog(mean(a_x,a_y))
 //clog(meanProduct(a_xy))
-//*/
+/*/
+

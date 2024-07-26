@@ -149,17 +149,51 @@ function ΣSeq(Z) {
   // return loop([1,Z+1], (i,r) => i+r, 0));
 }
 
+/**
+* Round a number to a precision, specificed in number of decimal places
+*
+* @param {number} number - The number to round
+* @param {number} precision - The number of decimal places to round to:
+*                             > 0 means decimals, < 0 means powers of 10
+* @return {number} - The number, rounded
+*/
+function round(n, precision = 2) {
+  const factor = 10 ** precision;
+  return Math.round(n * factor) / factor;
+  //return 0 + n.toFixed(prec).replace(/\.?0*$/,'');
+}
+
+/**
+ * Calculate the logarithm of a number with a given base.
+ *
+ * @param {number} base - The base of the logarithm. Must be greater than 0 and not equal to 1.
+ * @param {number} x - The number to calculate the logarithm of. Must be greater than 0.
+ * @param {number} [precision=15] - The number of decimal places to calculate the logarithm to. Defaults to 15.
+ * @returns {number} The logarithm of `x` with base `base`, calculated to `precision` decimal places.
+ * @throws {Error} If `base` is not greater than 0 or equal to 1, or if `x` is not greater than 0.
+ */
+function log(b, x, precision = 15) { return round(Math.log(x) / Math.log(b), precision); }
 function logarithm(base, x, precision = 15) {
+  if (typeof base !== "number" || base <= 0 || base === 1) {
+    throw new Error("Base must be greater than 0 and not equal to 1.");
+  }
+  if (typeof x !== "number" || x <= 0) {
+    throw new Error("x must be greater than 0.");
+  }
+  if (typeof precision !== "number" || precision <= 0 || !Number.isInteger(precision)) {
+    throw new Error("Precision must be a positive integer.");
+  }
+
   let result = 0;
   let multiplier = 1;
   let increment = 1;
 
   for (let i = 0; i < precision; i++) {
     increment /= 2;
-    multiplier *= base;
+    dlog(multiplier *= base,'multiplier:',x);
     if (multiplier <= x) {
-      result += increment;
-      x /= multiplier;
+      dlog(result += increment,`result + ${increment}:`);
+      dlog(x /= multiplier,'x');
     }
   }
 
@@ -186,6 +220,8 @@ module.exports = {
   Σ,
   Π,
   ΣΠ, ΣSeq,
+  round, log,
+  logarithm,
   tst,
 };
 
