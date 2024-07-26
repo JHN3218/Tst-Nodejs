@@ -2,7 +2,7 @@ const {
   ø, clog, dlog,
 } = require('./silly-libs'),
 {
-  Σ,Π,
+  Σ,Π,round,
 } = require('./silly-math-libs');
 
 const min = arr =>
@@ -134,7 +134,7 @@ const frln = (x, y) => {
         // slope = r_ * Sy / Sx,
         intercept = My - slope*Mx,
         [m,b] = [slope,intercept];
-  clog(`y = ${m.toFixed(2).replace(/\.?0*$/,'')}x ${0<=b?'+':'-'} ${Math.abs(b)}`);
+  clog(`y = ${round(m)}x ${0<=b?'+':'-'} ${Math.abs(round(b))}`);
   return {m,b};
 }
 
