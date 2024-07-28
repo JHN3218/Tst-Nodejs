@@ -1,5 +1,8 @@
 const { ø, clog, dlog, loop, is } = require('./silly-libs');
 
+function π_ish(n=0) {
+  return 7**n / (7**(n+1) + 7**n/16);
+}
 /*
 function permute(arr, ln=arr.length) {
   if (ln===1) return arr.map(x => [x]);
@@ -210,6 +213,7 @@ function tst(n) {
 }
 
 module.exports = {
+  π_ish,
   permute,
   combination,
   permbinate,

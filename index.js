@@ -19,6 +19,7 @@ const
   ΣΠ, ΣSeq,
   round, log,
   logarithm,
+  π_ish,
   tst,
 } = require('./silly-math-libs')
 ,{
@@ -85,3 +86,4 @@ clog(regression.polynomial(dlog(a_xy.splice(0,4)),{order:3, precision:0}))//clog
 //clog(meanProduct(a_xy))
 /*/
 
+clog(π_ish(10))
