@@ -113,10 +113,111 @@ function loop(ln, func, returnVal = 0) {
   return returnVal;  // Return the accumulated value.
 }
 
+/*/
+// 2D example (equivalent to regular matrix transpose)
+const data2D = [[1, 2], [3, 4]];
+console.log(transposeHigherDim(data2D, [1, 0]));
+// Output: [[1, 3], [2, 4]]
+
+// 3D example
+const data3D = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]];
+
+// Transpose first and last axes
+console.log(transposeHigherDim(data3D, [2, 1, 0]));
+// Output: [[[1, 5], [3, 7]], [[2, 6], [4, 8]]]
+
+// Transpose first two axes
+console.log(transposeHigherDim(data3D, [1, 0, 2]));
+// Output: [[[1, 2], [5, 6]], [[3, 4], [7, 8]]]
+
+// 4D example
+const data4D = [[[[1, 2], [3, 4]], [[5, 6], [7, 8]]], [[[9, 10], [11, 12]], [[13, 14], [15, 16]]]];
+console.log(transposeHigherDim(data4D));
+// Output: [[[[1, 9], [5, 13]], [[3, 11], [7, 15]]], [[[2, 10], [6, 14]], [[4, 12], [8, 16]]]]
+
+// Transpose first and last axes
+console.log(transposeHigherDim(data4D, [3, 1, 2, 0]));
+// Output: [[[[1, 9], [3, 11]], [[5, 13], [7, 15]]], [[[2, 10], [4, 12]], [[6, 14], [8, 16]]]]
+
+// Transpose middle two axes
+console.log(transposeHigherDim(data4D, [0, 2, 1, 3]));
+// Output: [[[[1, 2], [5, 6]], [[3, 4], [7, 8]]], [[[9, 10], [13, 14]], [[11, 12], [15, 16]]]]
+/*/
+function transposeHigherDim(data, axes) {
+  if (!Array.isArray(data) || data.length === 0) {
+    return [];
+  }
+
+  // Infer dimensions if not provided
+  const dims = [];
+  let current = data;
+  while (Array.isArray(current)) {
+    dims.push(current.length);
+    current = current[0];
+  }
+
+  // If axes are not provided, default to reversing all axes
+  if (!axes) {
+    axes = dims.map((_, i) => dims.length - 1 - i);
+  }
+
+  // Validate axes
+  if (axes.length !== dims.length || !axes.every(ax => ax >= 0 && ax < dims.length)) {
+    throw new Error("Invalid axes specification");
+  }
+
+  // Generate all possible index combinations
+  function* indexCombinations(dimensions, current = []) {
+    if (current.length === dimensions.length) {
+      yield current;
+    } else {
+      for (let i = 0; i < dimensions[current.length]; i++) {
+        yield* indexCombinations(dimensions, [...current, i]);
+      }
+    }
+  }
+
+  // Helper function to get nested value
+  function getNestedValue(arr, indices) {
+    return indices.reduce((acc, i) => acc[i], arr);
+  }
+
+  // Helper function to set nested value
+  function setNestedValue(arr, indices, value) {
+    const lastIndex = indices.pop();
+    const target = indices.reduce((acc, i) => acc[i], arr);
+    target[lastIndex] = value;
+  }
+
+  // Create the transposed structure
+  const newDims = axes.map(ax => dims[ax]);
+  const transposed = [];
+  for (const indices of indexCombinations(newDims)) {
+    setNestedValue(transposed, indices, null);
+  }
+
+  // Fill the transposed structure
+  for (const indices of indexCombinations(dims)) {
+    const value = getNestedValue(data, indices);
+    const newIndices = axes.map(ax => indices[ax]);
+    setNestedValue(transposed, newIndices, value);
+  }
+
+  return transposed;
+}
+
+function transposeData(data) {
+  return (!Array.isArray(data) || data.length === 0)?
+    []
+  :!Array.isArray(data[0])?
+    // If the input is a single array, treat it as a row
+    data.map(item => [item])
+  :data[0].map((_, colIndex) => data.map(row => row[colIndex]));
+}
+
 function convertDataColToRow(...data) {
-  const l = data[0].length
-    ,result = [];
-  for (let i=0; i<l; i++) {
+  const result = [];
+  for (let i=0; i<data[0].length; i++) {
     result[i] = [];
     for (let j=0; j<data.length; j++)
       result[i].push(data[j][i]);
@@ -180,6 +281,5 @@ module.exports = {
   loop,
   is,
   MergeObjs,
-  convertDataColToRow,
-  convertDataRowToCol,
+  transposeData,
 };

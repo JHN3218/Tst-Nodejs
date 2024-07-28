@@ -6,6 +6,7 @@ const
   loop,
   is,
   MergeObjs,
+  transposeData,
   convertDataColToRow,
   convertDataRowToCol,
 } = require('./silly-libs')
@@ -77,13 +78,16 @@ clog(
 const
 a_x = [1,2,3,4,5,6,7],
 a_y = [1,4,22,151,1050,7350,51494],
-a_xy = convertDataColToRow(a_x,a_y);
-// clog(frln(...convertDataRowToCol(a_xy)))
-// clog(regression.linear(a_xy))
+a_z = [11,22,33,44,55,66,77],
+a_w = [41,42,43,44,45,46,47]
+a_xy = transposeData([a_x,a_y]);
+clog(frln(...transposeData(a_xy)))
+clog(regression.linear(a_xy))
+clog(transposeData([a_x,a_y,a_z]))
 // clog(regression.polynomial(a_xy,{precision:0}))
 // clog(regression.polynomial(a_xy,{order:3, precision:0}))
-clog(regression.polynomial(dlog(a_xy.splice(0,4)),{order:3, precision:0}))//clog(mean(a_x,a_y))
+// clog(regression.polynomial(dlog(a_xy.splice(0,4)),{order:3, precision:0}))//clog(mean(a_x,a_y))
 //clog(meanProduct(a_xy))
 /*/
 
-clog(π_ish(10))
+//clog(π_ish(10))
