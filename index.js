@@ -90,4 +90,5 @@ clog(transposeData([a_x,a_y,a_z]))
 //clog(meanProduct(a_xy))
 /*/
 
-//clog(π_ish(10))
+loop(10+1,i=>clog(i,π_ish(i)))
+// clog(π_ish(17))
