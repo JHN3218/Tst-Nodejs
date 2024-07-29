@@ -1,7 +1,7 @@
 const { ø, clog, dlog, loop, is } = require('./silly-libs');
 
 function π_ish(n=0) {
-  const ƒx=[0,1,4,22,151,1050,7350,51494,0,0,17653461]
+  const ƒx=[0,1,4,22,151,1050,7350,51494,0,0,17658461]
   return 7**n / (7**(n+1) + (ƒx[n]||7**n/16));
 }
 /*
