@@ -107,8 +107,12 @@ function loop(ln, func, returnVal = 0) {
       step = ln[2] || (i<=end? 1 :-1);
   
   // Loop from i to end with the specified step, unless cond.exit is set to true.
-  for (; !cond.exit && i < end; i += step)
-    returnVal = func(i, returnVal, cond);  // Execute the callback function.
+  if (is(returnVal).Object())
+    for (; !cond.exit && i < end; i += step)
+      func(i, returnVal, cond);  // Execute the callback function.
+  else
+    for (; !cond.exit && i < end; i += step)
+      returnVal = func(i, returnVal, cond);  // Execute the callback function.
   
   return returnVal;  // Return the accumulated value.
 }
