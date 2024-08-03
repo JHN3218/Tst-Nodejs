@@ -1,9 +1,25 @@
-const { ø, clog, dlog, loop, is } = require('./silly-libs');
+const { ø, clog, dlog, loop, is } = require('./silly-libs'),
+  π = Math.PI;
 
-function π_ish(n=0) {
+function π_ish(n=0,x=0) {
   const ƒx=[0,1,4,22,151,1050,7350,51494,0,0,17658461]
-  return 7**n / (7**(n+1) + (ƒx[n]||7**n/16));
+  return 7**n / (7**(n+1) + (x||ƒx[n]||7**n/16));
 }
+
+function π_adjust(n) {
+  const p=π-3,
+    a=7**n,
+    b=7**(n+1),
+    x=Math.round(a/p-b),
+    y=π_ish(n,x)/p,
+    z=Math.floor(x+y),
+    π_=π_ish(n,z);
+  clog(n,a,b+z,z);
+  clog(" ",π_);
+  clog(" ",π_/p);
+  return z;
+}
+
 /*
 function permute(arr, ln=arr.length) {
   if (ln===1) return arr.map(x => [x]);
@@ -214,7 +230,7 @@ function tst(n) {
 }
 
 module.exports = {
-  π_ish,
+  π_ish, π_adjust,
   permute,
   combination,
   permbinate,
