@@ -90,8 +90,8 @@ clog(transposeData([a_x,a_y,a_z]))
 //clog(meanProduct(a_xy))
 /*/
 
-a_xy=loop(20+1,(i,r)=>r.push([i,π_adjust(i)]),[])
 /*/
+a_xy=loop(20+1,(i,r)=>r.push([i,π_adjust(i)]),[])
 predict=dlog(regression.polynomial(a_xy,{order:2, precision:0})).predict
 loop(20+1,i=>{
   y=predict(i)
@@ -99,4 +99,4 @@ loop(20+1,i=>{
   clog(y[1]/a_xy[i][1])
 })
 /*/
-// clog(π_ish(17))
+clog(π_ish(17))
