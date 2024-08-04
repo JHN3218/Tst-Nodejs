@@ -22,21 +22,6 @@ function π_adjust(n) {
   return z;
 }
 
-/*
-function permute(arr, ln=arr.length) {
-  if (ln===1) return arr.map(x => [x]);
-  const result = [];
-  for (let i=0; i<arr.length; i++) {
-    const current = arr[i];
-    const rest = arr.slice(0,i).concat(arr.slice(i+1));
-    for (let p of permute(rest, ln-1)) {
-      result.push([current, ...p]);
-    }
-  }
-  return result;
-}
-*/
-
 function permute(input, ln = 0) {
   const result = [];
   if (input.length || input) {
@@ -222,6 +207,11 @@ function logarithm(base, x, precision = 15) {
   return result;
 }
 
+const rand = {
+  int:(min,max)=>
+    Math.floor(Math.random() * (max - min + 1)) + min,
+};
+
 function tst(n) {
   const ttlDay = 365;
   let result = 1,
@@ -244,7 +234,7 @@ module.exports = {
   Π,
   ΣΠ, ΣSeq,
   round, log,
-  logarithm,
+  rand,
   tst,
 };
 
