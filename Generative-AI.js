@@ -1,6 +1,6 @@
 const { fs } = require('fs');
 
-const sysRole = 'As expert analysis in complete details with technical straight concise formal academic style';
+const sysRole = 'Comprehensive expert analysis in technical academic form';
 
 const {
   GoogleGenerativeAI,
