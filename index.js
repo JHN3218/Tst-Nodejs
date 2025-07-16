@@ -33,11 +33,11 @@ const
   r, frln
 } = require('./silly-statistics-libs')
 ,regression = require('regression')
-,{
-  GeminiAI,
+//,{
+//  GeminiAI,
   // OpenAI,
   // ClaudeAI,
-} = require('./Generative-AI')
+//} = require('./Generative-AI')
 // ,NeuralNetwork = require('./NN')
 
 //clog(dlog(123,'abc'));
@@ -99,4 +99,4 @@ loop(20+1,i=>{
   clog(y[1]/a_xy[i][1])
 })
 /*/
-// clog(π_ish(17))
+clog(π_ish(17))
