@@ -264,6 +264,11 @@ function is(...x) {
           (v = +v), typeof v === "number" && !Number.isInteger(v) && !isNaN(v)
         ),
       ),
+    Prime: () =>
+      x.every((v) =>
+        v%2 && v%5 &&
+        loop([],)
+      ),
     // Complex: () => x.every((v) => typeof v === "number" && !Number.isInteger(v) && !isNaN(v)),
     // imaginary: () => x.every((v) => typeof v === "number" && !Number.isInteger(v) && !isNaN(v) && v.imaginary),
     NaN: () => x.every((v) => ((v = +v), typeof v === "number" && isNaN(v))),

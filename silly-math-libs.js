@@ -212,6 +212,65 @@ const rand = {
     Math.floor(Math.random() * (max - min + 1)) + min,
 };
 
+// knuthUpArrow(a, arrows, b)
+// a: base (Number, integer >= 0)
+// arrows: number of up-arrows (integer >= 0). 0 arrows = a * b (by Knuth's def)
+// b: power/count (integer >= 0)
+//
+// Returns BigInt when possible for integer inputs; throws for too-large results.
+function knuthUpArrow(a, arrows, b) {
+  if (!Number.isInteger(arrows) || arrows < 0) throw new Error('arrows must be nonnegative integer');
+  if (!Number.isInteger(b) || b < 0) throw new Error('b must be nonnegative integer');
+  if (arrows === 0) return BigInt(a) * BigInt(b); // a ↑^0 b = a * b
+  if (b === 0) return BigInt(1);                  // a ↑^k 0 = 1 for k>=1
+  if (b === 1) return BigInt(a);                  // a ↑^k 1 = a
+
+  // Use recursion: a ↑^k b = a ↑^(k-1) (a ↑^k (b-1))
+  // For performance and to avoid stack overflow, implement iteratively when arrows==1 (regular power)
+  if (arrows === 1) {
+    // a ↑ b = a^b
+    return BigInt(a) ** BigInt(b);
+  }
+
+  // For arrows >= 2, compute iteratively by building b-1 nested calls:
+  // result = a ↑^(arrows) b = a ↑^(arrows-1) (a ↑^(arrows) (b-1))
+  // We'll implement recursively but carefully:
+  function up(aVal, k, bVal) {
+    if (k === 1) return BigInt(aVal) ** BigInt(bVal);
+    if (bVal === 0) return BigInt(1);
+    if (bVal === 1) return BigInt(aVal);
+    // compute inner = a ↑^k (b-1)
+    const inner = up(aVal, k, bVal - 1);
+    // then compute a ↑^(k-1) inner
+    return up(aVal, k - 1, Number(inner)); // WARNING: may overflow Number
+  }
+
+  return up(a, arrows, b);
+}
+
+function tetration(a, n, b) {
+  if (n === 0) return b;
+  else if (n === 1) return a ** b;
+  else {
+      let result = a;
+      for (let i = 0; i < n - 1; i++) {
+          result = a ** result;
+      }
+      return result ** b;
+  }
+}
+
+// Alternatively, a more concise recursive version
+function tetrationRecursive(a, n, b) {
+  if (n === 0) return b;
+  return a ** tetrationRecursive(a, n - 1, b);
+}
+
+// Usage
+// console.log(tetration(2, 2, 3));  // equivalent to 2 ↑↑ 2 = 2^2 = 4, but here b=3 so 2^(2^3) 
+// console.log(tetrationRecursive(2, 2, 1)); // equivalent to 2 ↑↑ 2 = 2^2 
+
+
 function tst(n) {
   const ttlDay = 365;
   let result = 1,

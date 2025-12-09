@@ -87,7 +87,7 @@ clog(transposeData([a_x,a_y,a_z]))
 // clog(regression.polynomial(a_xy,{precision:0}))
 // clog(regression.polynomial(a_xy,{order:3, precision:0}))
 // clog(regression.polynomial(dlog(a_xy.splice(0,4)),{order:3, precision:0}))//clog(mean(a_x,a_y))
-//clog(meanProduct(a_xy))
+// clog(meanProduct(a_xy))
 /*/
 
 /*/
@@ -99,4 +99,4 @@ loop(20+1,i=>{
   clog(y[1]/a_xy[i][1])
 })
 /*/
-clog(π_ish(17))
+// clog(π_ish(17))
