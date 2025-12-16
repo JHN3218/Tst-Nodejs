@@ -100,3 +100,25 @@ loop(20+1,i=>{
 })
 /*/
 // clog(π_ish(17))
+
+
+tbl=([5,5,7,10,15,20]).map(v=>(100-v)/100)
+clog(tbl)
+l=17
+ttl=500
+clog(ttl)
+for(let i=l-1;i>0;i--){
+  up=i>tbl.length?
+    tbl[tbl.length-1]
+    :tbl[i-1]
+  ttl=Math.ceil(ttl/up)
+  clog(i,up,ttl)
+}
+clog('---\n',ttl*5e4)
+for(let i=1;i<l;i++){
+  down=i>tbl.length?
+    tbl[tbl.length-1]
+    :tbl[i-1]
+  ttl=Math.floor(ttl*down)
+  clog(i,down,ttl)
+}
