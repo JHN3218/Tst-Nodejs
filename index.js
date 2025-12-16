@@ -114,7 +114,7 @@ for(let i=l-1;i>0;i--){
   ttl=Math.ceil(ttl/up)
   clog(i,up,ttl)
 }
-clog('---\n',ttl*5e4)
+clog('---\n',(ttl*5e4).toLocaleString('en'))
 for(let i=1;i<l;i++){
   down=i>tbl.length?
     tbl[tbl.length-1]
