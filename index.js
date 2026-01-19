@@ -33,6 +33,7 @@ const
   r, frln
 } = require('./silly-statistics-libs')
 ,regression = require('regression')
+,MarkovChain = require('./markov')
 //,{
 //  GeminiAI,
   // OpenAI,
@@ -101,6 +102,7 @@ loop(20+1,i=>{
 /*/
 // clog(π_ish(17))
 
+/*
 cex=false
 tbl=([5,5,7,10,15,20]).map(v=>(100-v)/100)
 clog(tbl)
@@ -129,3 +131,16 @@ for(let i=1;i<l;i++){
   clog(i+1,down,ttl)
 }
 }
+*/
+
+// Example usage:
+const text = [
+  "the cat sat on the mat",
+  "the cat ate the rat",
+  "the dog sat on the log",
+  "the dog ate the cat"
+].join(". ");
+
+const mc = new MarkovChain(1); // order 1 (bigram)
+mc.addText(text);
+clog(mc.generate(20));
