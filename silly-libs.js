@@ -306,12 +306,12 @@ function midpointCircle(cx, cy, radius, color = 'black') {
   let x = 0;
   let y = radius;
   let d = 1 - radius;
+  clog(x,d,y);
 
   // plotCirclePoints(cx, cy, x, y, color);
 
   while (x < y) {
     x++;
-    clog(x,d,y);
     if (d < 0) {
       d += 2 * x + 1;
     } else {
@@ -319,6 +319,7 @@ function midpointCircle(cx, cy, radius, color = 'black') {
       d += 2 * (x - y) + 1;
     }
     // plotCirclePoints(cx, cy, x, y, color);
+    clog(x,d,y);
   }
 }
 
