@@ -284,6 +284,44 @@ function is(...x) {
   return members;
 }
 
+function plotPoint(x, y, color = 'black') {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, 1, 1); // single-pixel
+}
+
+// Plot the 8 symmetric points
+function plotCirclePoints(cx, cy, x, y, color) {
+  plotPoint(cx + x, cy + y, color);
+  plotPoint(cx - x, cy + y, color);
+  plotPoint(cx + x, cy - y, color);
+  plotPoint(cx - x, cy - y, color);
+  plotPoint(cx + y, cy + x, color);
+  plotPoint(cx - y, cy + x, color);
+  plotPoint(cx + y, cy - x, color);
+  plotPoint(cx - y, cy - x, color);
+}
+
+// Midpoint circle algorithm
+function midpointCircle(cx, cy, radius, color = 'black') {
+  let x = 0;
+  let y = radius;
+  let d = 1 - radius;
+
+  // plotCirclePoints(cx, cy, x, y, color);
+
+  while (x < y) {
+    x++;
+    clog(x,d,y);
+    if (d < 0) {
+      d += 2 * x + 1;
+    } else {
+      y--;
+      d += 2 * (x - y) + 1;
+    }
+    // plotCirclePoints(cx, cy, x, y, color);
+  }
+}
+
 module.exports = {
   ø, clog,
   dlog, testCheck,
@@ -291,4 +329,5 @@ module.exports = {
   is,
   MergeObjs,
   transposeData,
+  midpointCircle,
 };

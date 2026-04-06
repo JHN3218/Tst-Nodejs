@@ -9,6 +9,7 @@ const
   transposeData,
   convertDataColToRow,
   convertDataRowToCol,
+  midpointCircle,
 } = require('./silly-libs')
 // ,{clipboardy} = require('clipboardy')
 ,{
@@ -108,7 +109,9 @@ tbl=([5,5,7,10,15,20]).map(v=>(100-v)/100)
 clog(tbl)
 for(let l=1;l<=17;l++) {
 // l=17
-ttl=l==17?1000:500
+ttl=1000 //l==17?1000:00
+point=5e4 //
+ports=189
 // clog(l,ttl)
 for(let i=l-1;i>0;i--){
   up=i>tbl.length?
@@ -118,7 +121,7 @@ for(let i=l-1;i>0;i--){
   // clog(i,up,ttl)
 }
 // clog('---')
-clog(l,ttl,(ttl*5e4).toLocaleString('en'),(ttl*5e4*185).toLocaleString('en'))
+clog(l,ttl,(ttl*point).toLocaleString('en'),(ttl*point*ports).toLocaleString('en'))
 if (!cex) continue
 clog('---')
 clog(1,ttl)
@@ -131,16 +134,18 @@ for(let i=1;i<l;i++){
   clog(i+1,down,ttl)
 }
 }
-*/
+/*/
 
 // Example usage:
-const text = [
-  "the cat sat on the mat",
-  "the cat ate the rat",
-  "the dog sat on the log",
-  "the dog ate the cat"
-].join(". ");
+// const text = [
+//   "the cat sat on the mat",
+//   "the cat ate the rat",
+//   "the dog sat on the log",
+//   "the dog ate the cat"
+// ].join(". ");
 
-const mc = new MarkovChain(1); // order 1 (bigram)
-mc.addText(text);
-clog(mc.generate(20));
+// const mc = new MarkovChain(1); // order 1 (bigram)
+// mc.addText(text);
+// clog(mc.generate(20));
+
+midpointCircle(0,0,20)
