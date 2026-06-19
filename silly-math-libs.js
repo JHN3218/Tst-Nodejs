@@ -260,6 +260,11 @@ function tetration(a, n, b) {
   }
 }
 
+function DiagLcube(dimension, l) {
+  return Math.sqrt(dimension*l**2)
+  return Math.sqrt(l**2+(dimension==2?l:DiagLcube(dimension-1,l))**2)
+}
+
 // Alternatively, a more concise recursive version
 function tetrationRecursive(a, n, b) {
   if (n === 0) return b;
@@ -294,6 +299,7 @@ module.exports = {
   ΣΠ, ΣSeq,
   round, log,
   rand,
+  DiagLcube,
   tst,
 };
 

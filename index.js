@@ -22,6 +22,7 @@ const
   round, log,
   logarithm,
   π_ish, π_adjust,
+  DiagLcube,
   tst,
 } = require('./silly-math-libs')
 ,{
@@ -148,4 +149,6 @@ for(let i=1;i<l;i++){
 // mc.addText(text);
 // clog(mc.generate(20));
 
-midpointCircle(0,0,20)
+// midpointCircle(0,0,20)
+
+clog(DiagLcube(4,1))
