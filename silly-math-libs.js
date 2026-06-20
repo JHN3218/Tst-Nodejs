@@ -261,7 +261,7 @@ function tetration(a, n, b) {
 }
 
 function DiagLcube(dimension, l) {
-  return Math.sqrt(dimension*l**2)
+  return l*Math.sqrt(dimension)
   return Math.sqrt(l**2+(dimension==2?l:DiagLcube(dimension-1,l))**2)
 }
 
